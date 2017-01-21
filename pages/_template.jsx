@@ -12,116 +12,108 @@ import { config } from 'config'
 import 'css/main.css'
 import 'css/github.css'
 
-const { rhythm, adjustFontSizeTo } = typography
+{ rhythm, adjustFontSizeTo } := typography
 
-module.exports = React.createClass({
-  propTypes () {
-    return {
-      children: React.PropTypes.object,
-    }
-  },
-  render () {
-    const docsActive = includes(this.props.location.pathname, '/docs/')
-    const examplesActive = includes(this.props.location.pathname, '/examples/')
 
-    return (
-      <div>
-        <div
+export default ({ children, location }) ->
+  docsActive := includes(location.pathname, '/docs/')
+  examplesActive := includes(location.pathname, '/examples/')
+
+
+  <div>
+    <div
+      style={{
+        background: colors.bg
+        color: colors.fg
+        marginBottom: rhythm(1.5)
+      }}
+    >
+      <Container
+        style={{
+          maxWidth: 960
+          paddingLeft: rhythm(3/4)
+        }}
+      >
+        <Grid
+          columns={12}
           style={{
-            background: colors.bg,
-            color: colors.fg,
-            marginBottom: rhythm(1.5),
+            padding: `${rhythm(3/4)} 0`
           }}
         >
-          <Container
+          <Span
+            columns={4}
             style={{
-              maxWidth: 960,
-              paddingLeft: rhythm(3/4),
+              height: 24 // Ugly hack. How better to constrain height of div?
             }}
           >
-            <Grid
-              columns={12}
+            <Link
+              to={prefixLink('/')}
               style={{
-                padding: `${rhythm(3/4)} 0`,
+                textDecoration: 'none'
+                color: colors.fg
+                fontSize: adjustFontSizeTo('25.5px').fontSize
               }}
             >
-              <Span
-                columns={4}
-                style={{
-                  height: 24, // Ugly hack. How better to constrain height of div?
-                }}
-              >
-                <Link
-                  to={prefixLink('/')}
-                  style={{
-                    textDecoration: 'none',
-                    color: colors.fg,
-                    fontSize: adjustFontSizeTo('25.5px').fontSize,
-                  }}
-                >
-                  {config.siteTitle}
-                </Link>
-              </Span>
-              <Span columns={8} last>
-                <a
-                  style={{
-                    float: 'right',
-                    color: colors.fg,
-                    textDecoration: 'none',
-                    marginLeft: rhythm(1/2),
-                  }}
-                  href="https://github.com/gatsbyjs/gatsby"
-                >
-                  Github
-                </a>
-                <Link
-                  to={prefixLink('/examples/')}
-                  style={{
-                    background: examplesActive ? activeColors.bg : colors.bg,
-                    color: examplesActive ? activeColors.fg : colors.fg,
-                    float: 'right',
-                    textDecoration: 'none',
-                    paddingLeft: rhythm(1/2),
-                    paddingRight: rhythm(1/2),
-                    paddingBottom: rhythm(3/4),
-                    marginBottom: rhythm(-1),
-                    paddingTop: rhythm(1),
-                    marginTop: rhythm(-1),
-                  }}
-                >
-                  Examples
-                </Link>
-                <Link
-                  to={prefixLink('/docs/')}
-                  style={{
-                    background: docsActive ? activeColors.bg : colors.bg,
-                    color: docsActive ? activeColors.fg : colors.fg,
-                    float: 'right',
-                    textDecoration: 'none',
-                    paddingLeft: rhythm(1/2),
-                    paddingRight: rhythm(1/2),
-                    paddingBottom: rhythm(3/4),
-                    marginBottom: rhythm(-1),
-                    paddingTop: rhythm(1),
-                    marginTop: rhythm(-1),
-                  }}
-                >
-                  Documentation
-                </Link>
-              </Span>
-            </Grid>
-          </Container>
-        </div>
-        <Container
-          style={{
-            maxWidth: 960,
-            padding: `${rhythm(1)} ${rhythm(3/4)}`,
-            paddingTop: 0,
-          }}
-        >
-          {this.props.children}
-        </Container>
-      </div>
-    )
-  },
-})
+              {config.siteTitle}
+            </Link>
+          </Span>
+          <Span columns={8} last>
+            <a
+              style={{
+                float: 'right'
+                color: colors.fg
+                textDecoration: 'none'
+                marginLeft: rhythm(1/2)
+              }}
+              href="https://github.com/gatsbyjs/gatsby"
+            >
+              Github
+            </a>
+            <Link
+              to={prefixLink('/examples/')}
+              style={{
+                background: if examplesActive: activeColors.bg else: colors.bg
+                color: if examplesActive: activeColors.fg else: colors.fg
+                float: 'right'
+                textDecoration: 'none'
+                paddingLeft: rhythm(1/2)
+                paddingRight: rhythm(1/2)
+                paddingBottom: rhythm(3/4)
+                marginBottom: rhythm(-1)
+                paddingTop: rhythm(1)
+                marginTop: rhythm(-1)
+              }}
+            >
+              Examples
+            </Link>
+            <Link
+              to={prefixLink('/docs/')}
+              style={{
+                background: if docsActive: activeColors.bg else: colors.bg
+                color: if docsActive: activeColors.fg else: colors.fg
+                float: 'right'
+                textDecoration: 'none'
+                paddingLeft: rhythm(1/2)
+                paddingRight: rhythm(1/2)
+                paddingBottom: rhythm(3/4)
+                marginBottom: rhythm(-1)
+                paddingTop: rhythm(1)
+                marginTop: rhythm(-1)
+              }}
+            >
+              Documentation
+            </Link>
+          </Span>
+        </Grid>
+      </Container>
+    </div>
+    <Container
+      style={{
+        maxWidth: 960
+        padding: `${rhythm(1)} ${rhythm(3/4)}`
+        paddingTop: 0
+      }}
+    >
+      {children}
+    </Container>
+  </div>
