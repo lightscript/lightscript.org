@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router'
-import Breakpoint from 'components/Breakpoint'
 import find from 'lodash/find'
 import { prefixLink } from 'gatsby-helpers'
 import { config } from 'config'
@@ -8,94 +7,67 @@ import { config } from 'config'
 import typography from 'utils/typography'
 const { rhythm } = typography
 
-class Template extends React.Component:
-  handleTopicChange(e) =>
-    this.context.router.push(e.target.value)
+styles := {
+  navWrapper: {
+    overflowY: 'auto',
+    paddingRight: `calc(${rhythm(1/2)} - 1px)`
+    position: 'absolute'
+    width: `calc(${rhythm(8)} - 1px)`
+    borderRight: '1px solid lightgrey'
+  }
+  leftNav: {
+    listStyle: 'none'
+    marginLeft: 0
+    marginTop: rhythm(1/2)
+  }
+  content: {
+    padding: `0 ${rhythm(1)}`
+    paddingLeft: `calc(${rhythm(8)} + ${rhythm(1)})`
+  }
+  docPageLinkLi: {
+    marginBottom: rhythm(1/2),
+  }
+  docPageLink: {
+    textDecoration: 'none'
+  }
+}
 
-  render() ->
-    childPages := config.docPages.map((p) =>
-      page := this.props.route.pages~find((_p) => _p.path === p)
-      {
-        title: page.data.title
-        path: page.path
+getChildPages(pages) ->
+  config.docPages.map((p) =>
+    page := pages~find((_p) => _p.path === p)
+    {
+      title: page.data.title
+      path: page.path
+    }
+  )
+
+DocPageLink({ child, location }) ->
+  isActive := prefixLink(child.path) == location.pathname
+
+  <li style={styles.docPageLinkLi}>
+    <Link to={prefixLink(child.path)} style={styles.docPageLink}>
+      {if isActive:
+        <strong>{child.title}</strong>
+      else:
+        child.title
       }
-    )
-    docOptions := childPages.map((child) =>
-      <option
-        key={prefixLink(child.path)}
-        value={prefixLink(child.path)}
-      >
-        {child.title}
-      </option>
-    )
-    docPages := childPages.map((child) =>
-      isActive := prefixLink(child.path) == this.props.location.pathname
+    </Link>
+  </li>
 
-      <li
-        key={child.path}
-        style={{
-          marginBottom: rhythm(1/2),
-        }}
-      >
-        <Link
-          to={prefixLink(child.path)}
-          style={{
-            textDecoration: 'none',
-          }}
-        >
-          {isActive ? <strong>{child.title}</strong> : child.title}
-        </Link>
-      </li>
-    )
-
-    <div>
-      <Breakpoint mobile>
-        <div
-          style={{
-            overflowY: 'auto',
-            paddingRight: `calc(${rhythm(1/2)} - 1px)`
-            position: 'absolute'
-            width: `calc(${rhythm(8)} - 1px)`
-            borderRight: '1px solid lightgrey'
-          }}
-        >
-          <ul
-            style={{
-              listStyle: 'none'
-              marginLeft: 0
-              marginTop: rhythm(1/2)
-            }}
-          >
-            {docPages}
-          </ul>
-        </div>
-        <div
-          style={{
-            padding: `0 ${rhythm(1)}`
-            paddingLeft: `calc(${rhythm(8)} + ${rhythm(1)})`
-          }}
-        >
-          {this.props.children}
-        </div>
-      </Breakpoint>
-      <Breakpoint>
-        <strong>Topics:</strong>
-        {' '}
-        <select
-          defaultValue={this.props.location.pathname}
-          onChange={this.handleTopicChange}
-        >
-          {docOptions}
-        </select>
-        <br />
-        <br />
-        {this.props.children}
-      </Breakpoint>
+Template({ route: { pages }, location, children }) ->
+  <div>
+    <div style={styles.navWrapper}>
+      <ul style={styles.leftNav}>
+        {[for child of getChildPages(pages):
+          <DocPageLink child={child} location={location} key={child.path} />
+        ]}
+      </ul>
     </div>
 
-Template.propTypes = {
-  route: React.PropTypes.object
-}
+    <div style={styles.content}>
+      {children}
+    </div>
+  </div>
 
 Template.contextTypes = {
   router: React.PropTypes.object.isRequired

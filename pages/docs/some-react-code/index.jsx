@@ -21,14 +21,11 @@ export default SomeReactCode() ->
       <p>
         React.js component pages makes it easy to add interactivity or ajax enhancements
         to what is otherwise a static site. In the case of a documentation site,
-        it let's you embed sample/runnable code to illustrate your documentation.
+        it lets you embed sample/runnable code to illustrate your documentation.
         (This demo is from <a href="https://github.com/chenglou/react-motion">React Motion</a>).
       </p>
-      <div
-        style={{
-          height: 500,
-        }}
-      >
+
+      <div style={{ height: 500 }}>
         <Demo />
       </div>
     </div>

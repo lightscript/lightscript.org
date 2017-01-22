@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Spring } from 'react-motion'
 import range from 'lodash/range'
 
-class Demo extends React.Component:
+export default class Demo extends React.Component:
   constructor() ->
     this.state = {
       left: 0
@@ -11,7 +11,7 @@ class Demo extends React.Component:
       mouse: [250, 300]
     }
 
-  componentDidMount() ->
+  componentDidMount(): void ->
     rect := ReactDOM.findDOMNode(this).getBoundingClientRect()
     this.setState({ // eslint-disable-line react/no-did-mount-set-state
       left: rect.left
@@ -54,9 +54,7 @@ class Demo extends React.Component:
     <Spring endValue={this.getValues}>
       {({ val }) =>
         <div
-          style={{
-            height: 400,
-          }}
+          style={{ height: 400 }}
           className="demo1"
           onMouseMove={this.handleMouseMove}
           onTouchMove={this.handleTouchMove}
@@ -66,14 +64,12 @@ class Demo extends React.Component:
               key={i}
               className={`demo1-ball ball-${i}`}
               style={{
-                WebkitTransform: `translate3d(${x - 25}px, ${y - 25}px, 0)`,
-                transform: `translate3d(${x - 25}px, ${y - 25}px, 0)`,
-                zIndex: val.length - i,
+                WebkitTransform: `translate3d(${x - 25}px, ${y - 25}px, 0)`
+                transform: `translate3d(${x - 25}px, ${y - 25}px, 0)`
+                zIndex: val.length - i
               }}
             />
           )}
         </div>
       }
     </Spring>
-
-export default Demo
