@@ -1,34 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { StickyContainer, Sticky } from 'react-sticky';
+import { Container, Row, Col, NavLink } from 'components/bootstrap'
 import find from 'lodash/find'
 import { prefixLink } from 'gatsby-helpers'
 import { config } from 'config'
 
-import typography from 'utils/typography'
-const { rhythm } = typography
-
 styles := {
-  navWrapper: {
-    overflowY: 'auto',
-    paddingRight: `calc(${rhythm(1/2)} - 1px)`
-    position: 'absolute'
-    width: `calc(${rhythm(8)} - 1px)`
-    borderRight: '1px solid lightgrey'
-  }
-  leftNav: {
-    listStyle: 'none'
-    marginLeft: 0
-    marginTop: rhythm(1/2)
-  }
-  content: {
-    padding: `0 ${rhythm(1)}`
-    paddingLeft: `calc(${rhythm(8)} + ${rhythm(1)})`
-  }
-  docPageLinkLi: {
-    marginBottom: rhythm(1/2),
-  }
-  docPageLink: {
-    textDecoration: 'none'
+  borderRight: {
+    borderRight: '1px solid #efefef'
   }
 }
 
@@ -41,36 +20,32 @@ getChildPages(pages) ->
     }
   )
 
-DocPageLink({ child, location }) ->
+DocsPageLink({ child, location }) ->
   isActive := prefixLink(child.path) == location.pathname
 
-  <li style={styles.docPageLinkLi}>
-    <Link to={prefixLink(child.path)} style={styles.docPageLink}>
-      {if isActive:
-        <strong>{child.title}</strong>
-      else:
-        child.title
-      }
-    </Link>
-  </li>
+  <NavLink to={prefixLink(child.path)} isActive={isActive} className="text-muted">
+    {child.title}
+  </NavLink>
 
-Template({ route: { pages }, location, children }) ->
-  <div>
-    <div style={styles.navWrapper}>
-      <ul style={styles.leftNav}>
-        {[for child of getChildPages(pages):
-          <DocPageLink child={child} location={location} key={child.path} />
-        ]}
-      </ul>
-    </div>
+Docs({ route: { pages }, location, children }) ->
+  <Container className="pb-15">
+    <StickyContainer>
+      <Row>
+        <Col sm={3}>
+          <Sticky className="px-4 pt-2" style={styles.borderRight}>
+            <ul className="nav flex-column">
+              {[for child of getChildPages(pages):
+                <DocsPageLink child={child} location={location} key={child.path} />
+              ]}
+            </ul>
+          </Sticky>
+        </Col>
 
-    <div style={styles.content}>
-      {children}
-    </div>
-  </div>
+        <Col className="px-5 py-2">
+          {children}
+        </Col>
+      </Row>
+    </StickyContainer>
+  </Container>
 
-Template.contextTypes = {
-  router: React.PropTypes.object.isRequired
-}
-
-export default Template
+export default Docs

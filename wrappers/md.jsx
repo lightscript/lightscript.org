@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container } from 'components/bootstrap'
 import DocumentTitle from 'react-document-title'
 import { config } from 'config'
 

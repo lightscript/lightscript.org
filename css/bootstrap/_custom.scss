@@ -2,3 +2,91 @@
 //
 // Copy variables from `_variables.scss` to this file to override default values
 // without modifying source files.
+
+$font-family-sans-serif: 'Fira Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+$font-family-monospace: 'Fira Mono', Menlo, monospace;
+$font-family-base: $font-family-sans-serif;
+
+$gray-dark: #626466;
+$body-color: $gray-dark;
+
+$headings-color: #212325;
+
+$spacers: (
+  n9: (
+    x: ($spacer-x * -9),
+    y: ($spacer-y * -9)
+  ),
+  n8: (
+    x: ($spacer-x * -7.5),
+    y: ($spacer-y * -7.5)
+  ),
+  n7: (
+    x: ($spacer-x * -6),
+    y: ($spacer-y * -6)
+  ),
+  n6: (
+    x: ($spacer-x * -4.5),
+    y: ($spacer-y * -4.5)
+  ),
+  n5: (
+    x: ($spacer-x * -3),
+    y: ($spacer-y * -3)
+  ),
+  n4: (
+    x: ($spacer-x * -1.5),
+    y: ($spacer-y * -1.5)
+  ),
+  n3: (
+    x: ($spacer-x * -1),
+    y: ($spacer-y * -1)
+  ),
+  n2: (
+    x: ($spacer-x * -0.5),
+    y: ($spacer-y * -0.5)
+  ),
+  n1: (
+    x: ($spacer-x * -0.25),
+    y: ($spacer-y * -0.25)
+  ),
+  0: (
+    x: 0,
+    y: 0
+  ),
+  1: (
+    x: ($spacer-x * .25),
+    y: ($spacer-y * .25)
+  ),
+  2: (
+    x: ($spacer-x * .5),
+    y: ($spacer-y * .5)
+  ),
+  3: (
+    x: $spacer-x,
+    y: $spacer-y
+  ),
+  4: (
+    x: ($spacer-x * 1.5),
+    y: ($spacer-y * 1.5)
+  ),
+  5: (
+    x: ($spacer-x * 3),
+    y: ($spacer-y * 3)
+  ),
+  6: (
+    x: ($spacer-x * 4.5),
+    y: ($spacer-y * 4.5)
+  ),
+  7: (
+    x: ($spacer-x * 6),
+    y: ($spacer-y * 6)
+  ),
+  8: (
+    x: ($spacer-x * 7.5),
+    y: ($spacer-y * 7.5)
+  ),
+  9: (
+    x: ($spacer-x * 9),
+    y: ($spacer-y * 9)
+  ),
+)

@@ -1,6 +1,5 @@
-siteTitle="AlphabetJS"
-baseColor = "#884499"
-linkPrefix = "/gatsby-starter-documentation"
+siteTitle = "LightScript"
+linkPrefix = "/"
 docPages = [
   "/docs/",
   "/docs/getting-started/",

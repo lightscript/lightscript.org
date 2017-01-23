@@ -1,0 +1,33 @@
+@import "./bootstrap/bootstrap.scss";
+
+// see also css/bootstrap/_custom.scss
+
+pre {
+  background-color: #FCFBFA;
+  border-left: solid 3px #ECEAE9;
+  font-size: .875em;
+  overflow-y: scroll;
+  padding: .5rem 8px .5rem 12px;
+  white-space: pre;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 {
+  margin-bottom: $spacer-y * 1.5;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.navbar-light {
+  .navbar-brand {
+    color: #455861;
+    @include hover-focus {
+      color: #455861;
+    }
+  }
+}

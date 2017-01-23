@@ -1,6 +1,7 @@
 {
   "plugins": [
     "lightscript",
+    "transform-object-rest-spread",
     "add-module-exports",
     "transform-es2015-modules-commonjs"
   ],

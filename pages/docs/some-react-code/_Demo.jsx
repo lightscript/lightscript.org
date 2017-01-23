@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import { Spring } from 'react-motion'
 import range from 'lodash/range'
 
+import './ball-faces.css'
+
 export default class Demo extends React.Component:
   constructor() ->
     this.state = {
