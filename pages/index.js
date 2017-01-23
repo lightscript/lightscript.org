@@ -34,23 +34,17 @@ fizzBuzzJS := {
   <span class="hljs-keyword">return</span> _arr;
 }`
 }
-// #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3
-// #ede7f6, #fce4ec, #fbe9e7, #fff3e0, #e8eaf6, #e8f5e9,
-// #ffebee, #fff8e1, #fffde7, #f1f8e9, #e1f5fe, #e3f2fd, #F3E5F5
-// white, #fce4ec, #FFECB3, #fff9c4, #dcedc8, #b2ebf2, #b3e5fc, #ede7f6, white
+
 styles := {
   hero: {
     width: '100%'
     height: '100%'
-    background: `linear-gradient(0deg,
-      white, #f9dbd8, #fff5d6, #fffbd1, #e9f7d9, #d2f0fe, #bae8fd, #ede7f6, white
-    )`
-    textShadow: '1px 1px 1px rgba(0,0,0, .1)'
+    background: '#f9f5d7'
   }
   heroTitle: {
-    color: 'white'
+    color: '#28799f'
     textShadow: '1px 1px 1px rgba(0,0,0, .2)'
-    fontSize: '4rem'
+    fontSize: '3.5rem'
   }
   heroSubtitle: {
     color: '#7e8990'
@@ -61,8 +55,8 @@ styles := {
 }
 
 Hero() ->
-  <div style={styles.hero} className="py-7 mt-n1">
-    <center className="py-4">
+  <div style={styles.hero} className="py-4 mt-n1">
+    <center className="pt-5 pb-3">
       <h1 style={styles.heroTitle}>LightScript</h1>
       <h4>
         <em style={styles.heroSubtitle}>
@@ -75,13 +69,14 @@ Hero() ->
       <Row className="justify-content-sm-center">
         <Col sm={8}>
           <center>
-            <p className="lead">
+            <p className="lead pt-2">
               Built to make programmers more productive by zapping cruft. ⚡
             </p>
-            <p className="lead">
+            <p className="lead pb-2">
               Implemented as a fork of Babel’s parser (babylon) wrapped in a Babel plugin.
               Fully compatible with JSX, all ES6/7 features, and the Flow static typing engine.
             </p>
+            <p className="text-muted">Coming soon. A quick taste:</p>
           </center>
         </Col>
       </Row>
@@ -89,10 +84,10 @@ Hero() ->
   </div>
 
 export default () ->
-  <div>
+  <div className="pb-6">
     <Hero />
     <Container>
-      <Row className="justify-content-sm-center mt-n6">
+      <Row className="justify-content-sm-center mt-n4">
         <Col md={5}>
           <div style={styles.codeWrapper} className="h-100">
             <pre className="mb-0 h-100">
@@ -110,9 +105,6 @@ export default () ->
       </Row>
       <Row className="justify-content-sm-center">
         <Col sm={8}>
-          <p>Coming soon. A quick taste:</p>
-
-
           <p>Completed features include:</p>
           <ul>
             <li>implicit returns</li>

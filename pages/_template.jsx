@@ -12,8 +12,8 @@ import 'css/app.scss'
 
 styles := {
   navBar: {
-    // backgroundColor: '#DAF3FF'
-    // borderBottom: '1px solid #CBE2EC'
+    backgroundColor: '#DAF3FF'
+    borderBottom: '1px solid #CBE2EC'
   }
 }
 

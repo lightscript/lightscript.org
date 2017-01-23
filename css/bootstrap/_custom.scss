@@ -10,6 +10,8 @@ $font-family-base: $font-family-sans-serif;
 $gray-dark: #626466;
 $body-color: $gray-dark;
 
+$text-muted: lighten($body-color, 25);
+
 $headings-color: #212325;
 
 $spacers: (
