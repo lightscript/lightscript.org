@@ -6,7 +6,6 @@ pre {
   background-color: #FCFBFA;
   border-left: solid 3px #ECEAE9;
   font-size: .875em;
-  overflow-y: scroll;
   padding: .5rem 8px .5rem 12px;
   white-space: pre;
 }
@@ -23,11 +22,76 @@ h1, h2 {
   font-weight: 600;
 }
 
+.hero {
+  width: 100%;
+  height: 100%;
+  background: #f9f5d7;
+
+  .text-muted {
+    color: lighten($body-color, 25) !important;
+  }
+
+  h1 {
+    color: #28799f;
+    text-shadow: 1px 1px 1px rgba(0,0,0, .2);
+    font-size: 3.5rem;
+  }
+}
+
 .navbar-light {
   .navbar-brand {
     color: #455861;
     @include hover-focus {
       color: #455861;
     }
+  }
+}
+
+.docs-ref-toc {
+  border-right: 1px solid #efefef;
+
+  &.sticky {
+    bottom: 0;
+    overflow-y: scroll;
+  }
+
+  li > p {
+    margin-bottom: 0;
+  }
+
+  .nav-item {
+    > p {
+      padding-top: $spacer * .5;
+    }
+
+    ul.nav { display: none; }
+    &.active {
+      ul.nav { display: block; }
+      p .nav-link {
+        font-weight: 500;
+      }
+    }
+
+    > ul.nav {
+      padding-left: 1em;
+      padding-bottom: .5em;
+    }
+
+  }
+
+  .nav-link {
+    padding: 0 1em;
+  }
+}
+
+.docs-ref-docs {
+  section {
+    margin-bottom: $spacer * 4.5;
+  }
+  h2 {
+    border-bottom: 1px solid $gray-lighter;
+  }
+  h3 {
+    padding: $spacer 0;
   }
 }

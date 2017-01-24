@@ -36,16 +36,6 @@ fizzBuzzJS := {
 }
 
 styles := {
-  hero: {
-    width: '100%'
-    height: '100%'
-    background: '#f9f5d7'
-  }
-  heroTitle: {
-    color: '#28799f'
-    textShadow: '1px 1px 1px rgba(0,0,0, .2)'
-    fontSize: '3.5rem'
-  }
   heroSubtitle: {
     color: '#7e8990'
   }
@@ -55,7 +45,7 @@ styles := {
 }
 
 Hero() ->
-  <div style={styles.hero} className="py-4 mt-n1">
+  <div className="py-4 mt-n1 hero">
     <center className="pt-5 pb-3">
       <h1 style={styles.heroTitle}>LightScript</h1>
       <h4>

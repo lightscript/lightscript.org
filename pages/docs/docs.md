@@ -1,6 +1,4 @@
----
-title: Reference Documentation
----
+## TOC
 
 ## Variables & Assignment
 
