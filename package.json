@@ -14,7 +14,7 @@
     "react-motion": "^0.1.0",
     "react-responsive-grid": "^0.3.3",
     "react-typography": "^0.15.0",
-    "react-visibility-sensor": "^3.6.2",
+    "react-waypoint": "rattrayalex/react-waypoint#accept-children",
     "remark": "^6.2.0",
     "remark-react": "^3.1.0",
     "remark-toc": "^3.1.0",

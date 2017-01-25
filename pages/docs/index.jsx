@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { StickyContainer, Sticky } from 'react-sticky'
-import VisibilitySensor from 'react-visibility-sensor'
+import Waypoint from 'react-waypoint'
 import { Container, Row, Col, NavLink } from 'components/bootstrap'
 import find from 'lodash/find'
 import last from 'lodash/last'
@@ -71,21 +71,14 @@ ScrollGroup({ children: flatChildren, onEnter, onLeave }) ->
 
   <div key="scroll-group">
     {sections.map(section =>
-      onChange(isVisible) ->
-        if isVisible: onEnter(section.id)
-        else: onLeave(section.id)
+      _onEnter() -> onEnter(section.id)
+      _onLeave() -> onLeave(section.id)
 
-      <VisibilitySensor
-        onChange={onChange}
-        partialVisibility={true}
-        scrollCheck={true}
-        intervalCheck={true}
-        key={section.id}
-      >
+      <Waypoint onEnter={_onEnter} onLeave={_onLeave} key={section.id}>
         <section id={section.id}>
           {section.children}
         </section>
-      </VisibilitySensor>
+      </Waypoint>
     )}
   </div>
 
