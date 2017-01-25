@@ -119,7 +119,9 @@ DocsContents := remark()
   })
   .process(docMD)
   .contents
-
+exports.data = {
+  "title": "blahhhh"
+}
 class Docs extends React.Component:
   constructor() ->
     this.state = {
@@ -146,6 +148,7 @@ class Docs extends React.Component:
     this.setState({ activeSections })
 
   render() ->
+    console.log(this.props.route.page)
     <Container className="py-5">
       <StickyContainer>
         <Row>
