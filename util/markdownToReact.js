@@ -1,0 +1,41 @@
+// C/P "fork" of https://github.com/mapbox/remark-react/blob/master/index.js
+
+import toHAST from 'mdast-util-to-hast'
+import sanitize from 'hast-util-sanitize'
+import toH from 'hast-to-hyperscript'
+import React from 'react'
+
+
+export default plugin(processor, options) -> {
+  settings := options or {}
+  createElement := settings.createElement or React.createElement
+  components := settings.remarkReactComponents or {}
+  clean := settings.sanitize != false
+  scheme := if clean and (typeof settings.sanitize != 'boolean'): settings.sanitize
+  toHastOptions := settings.toHast or {}
+  traverse := options.traverse or null
+
+  h(name, props, children) -> {
+    component := components[name] or name
+
+    children = if children: children.filter((child) -> child != '\n')
+    createElement(component, props, children)
+  }
+
+  // fake class b/c it breaks with a real one
+  Compiler() -> {}
+  Compiler.prototype.compile(node) -> {
+    let hast = {
+      type: 'element'
+      tagName: 'div'
+      properties: {}
+      children: toHAST(node, toHastOptions).children
+    }
+
+    if clean: hast = sanitize(hast, scheme)
+    if traverse: hast = traverse(hast)
+
+    toH(h, hast, settings.prefix)
+  }
+  processor.Compiler = Compiler
+}

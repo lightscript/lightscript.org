@@ -6,6 +6,7 @@
   "dependencies": {
     "babel-plugin-lightscript": "lightscript/babel-plugin-lightscript",
     "babel-preset-env": "^1.1.8",
+    "babel-standalone": "^6.22.1",
     "chroma-js": "^0.7.2",
     "color-pairs-picker": "^1.3.5",
     "gatsby": "^0.12.28",

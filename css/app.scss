@@ -81,6 +81,11 @@ h1, h2 {
 
   .nav-link {
     padding: 0 1em;
+    color: $text-muted;
+
+    &:hover {
+      color: $link-color;
+    }
   }
 }
 
@@ -93,5 +98,20 @@ h1, h2 {
   }
   h3 {
     padding: $spacer 0;
+    font-size: $font-size-h4;
+    font-weight: 300;
   }
+
+  .heading-anchor {
+    margin-left: -1.5rem;
+    padding-right: .5rem;
+    opacity: 50%;
+    visibility: hidden;
+  }
+  h2:hover, h3:hover {
+    .heading-anchor {
+      visibility: visible;
+    }
+  }
+
 }

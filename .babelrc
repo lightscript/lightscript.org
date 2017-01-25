@@ -7,5 +7,10 @@
   ],
   "presets": [
     "react"
+  ],
+  "ignore": [
+    "node_modules",
+    "babel-plugin-lightscript",
+    "babylon-lightscript"
   ]
 }

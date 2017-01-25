@@ -92,9 +92,6 @@ as getters and setters generally do not require binding.
       console.log('a is b')
       console.log('b is a, too')
 
-Note that you can also use traditional `if (test) {}` syntax if you prefer,
-though `elif` and if-expressions (see below) do not currently work with it.
-
 ### One-line `if`
     if a != b: console.log('a isnt b')
 
@@ -171,10 +168,17 @@ call the [`coercingNotEq()`]() function from the standard library.
 
 ### Example
 
-    if a == b: 'a === b'
-    elif b != c: 'b !== c'
-    elif d and not e: 'd is truthy, e is falsy'
-    elif g or h: 'either g or h is truthy'
+    if a == b:
+      'a === b'
+
+    if b != c:
+      'b !== c'
+
+    if d and not e:
+      'd is truthy, e is falsy'
+
+    if g or h:
+      'either g or h is truthy'
 
 
 ### Bitwise Operators

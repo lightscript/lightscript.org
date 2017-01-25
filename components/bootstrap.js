@@ -50,4 +50,9 @@ NavLink({ children, to, href, isActive, className, ...etc }) ->
       {children}
     </Link>
 
-export { Container, Row, Col, NavBar, NavLink }
+Nav({ children, className, ...etc }) ->
+  <ul className={cx("nav flex-column", className)} {...etc}>
+    {children}
+  </ul>
+
+export { Container, Row, Col, NavBar, NavLink, Nav }
