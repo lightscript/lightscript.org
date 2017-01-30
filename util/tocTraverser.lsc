@@ -15,7 +15,7 @@ export default tocTraverser(node) ->
   switch node.tagName {
     case 'li':
       firstChild := node.children.1
-      if firstChild && firstChild.tagName == 'p':
+      if firstChild and firstChild.tagName == 'p':
         href := node.children.1.children.0.properties.href
         node.properties.section = href.replace('#', '')
         node.tagName = 'TocSection'
