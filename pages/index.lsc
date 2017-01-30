@@ -118,7 +118,11 @@ export default () ->
               here
             </a>
             {' '}and{' '}
-            <a href="https://github.com/lightscript/babel-plugin-lightscript/tree/master/test/fixtures">here</a>. WIP docs are <a href="https://github.com/lightscript/planning/blob/wip/docs.md">
+            <a href="https://github.com/lightscript/babel-plugin-lightscript/tree/master/test/fixtures">
+              here
+            </a>
+            . WIP docs are{' '}
+            <a href="https://github.com/lightscript/planning/blob/wip/docs.md">
               here
             </a>
             , though not really intended for public viewing just yet.

@@ -12,7 +12,6 @@ import lightscript from 'babel-plugin-lightscript'
 //   exports.chain = _definitions.chain;
 import { transform } from 'babel-standalone'
 
-
 export default mainDocsTraverser(node) ->
   // console.log(node)
 
@@ -36,7 +35,6 @@ export default mainDocsTraverser(node) ->
     node.children = node.children.map(mainDocsTraverser)
 
   return node
-
 
 wrapIntoSectionsByH2(children) ->
   sections := []
@@ -86,7 +84,6 @@ makeHeadingAnchor(id) ->
       }]
     }]
   }
-
 makeCodeRow(textNodes) ->
   lsc := textNodes.map(n -> n.value).join('')
 
