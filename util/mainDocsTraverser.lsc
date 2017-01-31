@@ -13,8 +13,6 @@ import lightscript from 'babel-plugin-lightscript'
 import { transform } from 'babel-standalone'
 
 export default mainDocsTraverser(node) ->
-  // console.log(node)
-
   switch node.tagName {
     case 'h2':
     case 'h3':
