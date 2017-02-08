@@ -4,11 +4,11 @@ import DocumentTitle from 'react-document-title'
 import { config } from 'config'
 
 export default ({ route }) ->
-  post := route.page.data
+  { title = '', body = '' } := route?.page?.data
 
-  <DocumentTitle title={`${post.title} | ${config.siteTitle}`}>
+  <DocumentTitle title={`${title} | ${config.siteTitle}`}>
     <div className="markdown">
-      <h1>{post.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: post.body }} />
+      <h1>{title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: body }} />
     </div>
   </DocumentTitle>

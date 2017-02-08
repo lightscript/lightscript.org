@@ -10,6 +10,8 @@
 LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
 
 ### `let` and `var`
+    let foo = "first, I am foo!"
+    foo = "hah, I have been reassigned!"
 As in JavaScript.
 
 
