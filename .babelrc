@@ -1,12 +1,7 @@
 {
+  "presets": ["lightscript"],
   "plugins": [
-    "lightscript",
-    "transform-object-rest-spread",
     "add-module-exports",
-    "transform-es2015-modules-commonjs"
-  ],
-  "presets": [
-    "react"
   ],
   "ignore": [
     "node_modules",

@@ -6,6 +6,7 @@
   "dependencies": {
     "babel-plugin-lightscript": "lightscript/babel-plugin-lightscript",
     "babel-preset-env": "^1.1.8",
+    "babel-preset-lightscript": "lightscript/babel-preset-lightscript",
     "babel-standalone": "^6.22.1",
     "chroma-js": "^0.7.2",
     "classnames": "^2.2.5",
@@ -20,6 +21,7 @@
     "remark": "^6.2.0",
     "remark-react": "^3.1.0",
     "remark-toc": "^3.1.0",
+    "tcomb": "^3.2.16",
     "typography": "^0.15.0",
     "typography-plugin-code": "^0.15.0",
     "underscore.string": "^3.2.2"

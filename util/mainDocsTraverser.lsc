@@ -1,6 +1,8 @@
 import last from 'lodash/last'
+import includes from 'lodash/includes'
 
-import lightscript from 'babel-plugin-lightscript'
+import lightscriptPlugin from 'babel-plugin-lightscript'
+import lightscriptPreset from 'babel-preset-lightscript'
 
 // note this is hacked; must add the following at line 720:
 //   exports.defineType = _definitions.default;
@@ -82,14 +84,18 @@ makeHeadingAnchor(id) ->
       }]
     }]
   }
+
 makeCodeRow(textNodes) ->
   lsc := textNodes.map(n -> n.value).join('')
 
   let js
   try:
-    js = transform(lsc, { plugins: [lightscript] }).code
+    js = transform(lsc, { plugins: [lightscriptPlugin] }).code
   catch (err):
-    js = "Not yet implemented.\n\n" + err.message
+    try:
+      js = transform(lsc, { presets: [lightscriptPreset] }).code
+    catch (err):
+      js = "Not yet implemented.\n\n" + err.message
 
   {
     type: 'element'
