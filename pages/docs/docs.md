@@ -385,7 +385,7 @@ Decimals must be prefixed with a zero (eg, `.9` is not allowed, but `0.9` is).
 ## `for` loops
 
 EcmaScript has three kinds of `for` loops; `for-in`, `for-of`, and `for (...;...;...)`.
-LightScript adds a forth.
+LightScript adds a fourth.
 
 ### `for-in`
     for key in obj:
@@ -525,50 +525,61 @@ For example, the following code would be broken in LightScript:
     if (true)
     {
       // body goes here
+      let x = 3
     }
 
 You must instead use the following style when using curly braces:
 
     if (true) {
-
+      let x = 3
     }
 
 In the rare case that you wish to use an anonymous block, such as
 
-    function () {
+    function foo() {
       // some code up here
       {
         // code in an anonymous block here
+        let x = 'private!'
       }
       // more code down here
+      let x = 5
     }
 
 you may prefix the anonymous block with a semicolon, as so:
 
-    function () {
+    function foo() {
       // some code up here
       ;{
         // code in an anonymous block here
+        let x = 'private!'
       }
       // more code down here
+      let x = 5
     }
 
 Similarly, if using blocks with `switch`/`case`, you cannot write
 
-    case x:
-      {
-        // contents of block here
-      }
+    switch (foo) {
+      case bar:
+        {
+          // contents of block here
+          let x = 3
+        }
+    }
 
 and must instead write
 
-    case x: {
-      // contents of block here
+    switch (foo) {
+      case bar: {
+        // contents of block here
+        let x = 3
+      }
     }
 
 ## Ambiguities
 
-I tried really fucking hard to have no ambiguities.
+I tried really hard to have no ambiguities.
 Shamefully, at least one has snuck up on me that I don't know a way around:
 
 ### Colons, Arrows, and Types
