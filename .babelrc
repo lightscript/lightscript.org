@@ -1,11 +1,12 @@
 {
   "presets": ["lightscript"],
   "plugins": [
-    "add-module-exports",
+    "add-module-exports"
   ],
   "ignore": [
     "node_modules",
     "babel-plugin-lightscript",
-    "babylon-lightscript"
+    "babylon-lightscript",
+    "gatsby"
   ]
 }
