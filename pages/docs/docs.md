@@ -3,17 +3,75 @@
 ## Variables & Assignment
 
 ### `const`
-    foo := 'hello'
+
+LightScript is `const` by default; the keyword is not necessary:
+
+    foo = 'hello'
+    { steepTime, origin } = tea
+    [ first, ...others ] = list
+
+Because LightScript is a rough superset of JavaScript,
+the `const` keyword is still valid:
+
+    const foo = 'hello'
 
 ### Annotated `const`
+
     foo: string = 'hello'
+
 LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
+
+Note that, unlike in JavaScript, the type annotation cannot be followed by a newline:
+
+    foo:
+      string = 'hello'
+
+is not valid.
 
 ### `let` and `var`
     let foo = "first, I am foo!"
-    foo = "hah, I have been reassigned!"
-As in JavaScript.
+    now foo = "hah, I have been reassigned!"
 
+`let` and `var` are the same as in JavaScript. However, to reassign a variable,
+you must use the keyword `now`. This makes it more clear when you are reassigning
+(which shouldn't be often), and enables the `const`-by-default syntax.
+
+This can be a bit tricky at first:
+
+    let weekend
+    if weatherIsGood:
+      weekend = 'gone skiing!'
+    else:
+      weekend = 'couch potato'
+
+doesn't do what you want, since the inner `weekend` variables are redeclared as shadow `const` variables; you need to use `now`:
+
+    let weekend
+    if weatherIsGood:
+      now weekend = 'gone skiing!'
+    else:
+      now weekend = 'couch potato'
+
+(Note that the above code would be better written with an [If-Expression](#if-expressions-ternaries)).
+
+### Updating values
+
+Assignments that update a variable also require the `now` keyword:
+
+    now x += 3
+    now x *= 2
+
+However, assigning to an object's property does not currently require `now`
+(though this may change in the future):
+
+    now object.property = value
+
+    object.property = value
+
+Similarly, non-assignment updates do not currently require `now`:
+
+    now x++
+    x++
 
 ## Function Definition
 
@@ -64,20 +122,20 @@ See also [await]().
 ## Methods
 
 ### Basic Methods
-    obj := {
+    obj = {
       foo() -> 'hello'
       bar() ->
         'hi there'
     }
 
 ### Bound Methods
-    obj := {
+    obj = {
       name: 'Jack'
       foo() => this.name.toUpperCase()
     }
 
 ### Getters and Setters
-    obj := {
+    obj = {
       foo() -get> this._foo
       foo(newValue) -set> this._foo = newValue
     }
@@ -112,15 +170,15 @@ as getters and setters generally do not require binding.
 `else if` also works.
 
 ### If-Expressions (Ternaries)
-    animal := if canBark: 'dog' else: 'cow'
+    animal = if canBark: 'dog' else: 'cow'
 
 You can also use `elif` and `else if` within if-expressions.
 
 ### `null`-default If-Expressions (Ternaries)
-    animal := if canBark: 'dog'
+    animal = if canBark: 'dog'
 
 ### Multiline If-Expressions (Ternaries)
-    animal := if canBark:
+    animal = if canBark:
       'dog'
     else if canMeow:
       'cat'
@@ -130,7 +188,7 @@ You can also use `elif` and `else if` within if-expressions.
 Note that currently, an extra indent for the `else`'s above is not allowed.
 Instead, you can do:
 
-    animal :=
+    animal =
       if canBark:
         'dog'
       elif canMeow:
@@ -215,7 +273,7 @@ while `x? 'truthy' : 'falsy'` will be parsed (incorrectly) as an existential `?`
 The use of `? :` ternaries is discouraged in LightScript in favor of [If-Expressions]().
 
 ### null-or
-    c := a ?? b
+    c = a ?? b
 ---
     const c = (a != null ? a : b);
 
@@ -226,11 +284,7 @@ The use of `? :` ternaries is discouraged in LightScript in favor of [If-Express
 
 ### Elvis operator
     d = a?.b?.c
----
-    const d = (a != null
-      ? (a.b != null ? a.b.c : null)
-      : null
-    );
+
 Note that the default value is `null`, unlike CoffeeScript's `undefined`.
 
 ### Safe calls
@@ -245,11 +299,11 @@ See [the standard library]() for `isFunction` (tl;dr, it comes from lodash).
 ## Objects and Arrays
 
 ### Single-Line Objects
-    obj := { a: 'a', b, [1 + 1]: 'two', ...anotherObj }
+    obj = { a: 'a', b, [1 + 1]: 'two', ...anotherObj }
 Destructuring, dynamic names, and splats are the same as in JS.
 
 ### Multi-Line Objects
-    obj := {
+    obj = {
       a: 'a'
       b
       [1 + 1]: 'two'
@@ -260,8 +314,8 @@ Destructuring, dynamic names, and splats are the same as in JS.
 Commas are not necessary. Using commas in a multiline object raises a linting error.
 
 ### Destructured Property Transfer (TODO)
-    bar := { a: 1 }
-    foo := { b: 2, c: 3, d: 4 }
+    bar = { a: 1 }
+    foo = { b: 2, c: 3, d: 4 }
     bar{ b, c } = foo
 ---
     const bar = { a: 1 }
@@ -270,10 +324,10 @@ Commas are not necessary. Using commas in a multiline object raises a linting er
     bar.c = foo.c;
 
 ### Single-Line Arrays
-    arr := [1, 2, 3]
+    arr = [1, 2, 3]
 
 ### Multi-Line Arrays
-    arr := [
+    arr = [
       1
       2
       2 + 1
@@ -391,7 +445,7 @@ LightScript adds a fourth.
 
 ### `for-in`
     for key in obj:
-      val := obj[key]
+      val = obj[key]
 Note that the iterator variable is `const` by default.
 
 PSA: using `in` with an Array is usually [not what you want](TODO); use `for-from` instead.
@@ -474,12 +528,12 @@ Note that you can combine this with single-line `if` statements:
 
 ### Array Comprehensions
 
-    doubledItems := [for item of array: item * 2]
-    filteredItems := [for item of array: if item > 3: item]
+    doubledItems = [for item of array: item * 2]
+    filteredItems = [for item of array: if item > 3: item]
 
 Note that you can nest for-loops within an array, and they can take up multiple lines:
 
-    listOfPoints := [
+    listOfPoints = [
       for x of xs:
         for y of ys:
           x + y
@@ -487,7 +541,7 @@ Note that you can nest for-loops within an array, and they can take up multiple 
 
 You can also nest comprehensions within comprehensions for constructing multidimensional arrays:
 
-    matrix := [
+    matrix = [
       for row from 0 til n:
         [ for col from 0 til n: { row, col } ]
     ]
@@ -501,9 +555,9 @@ will result in `[3, 4]`, not `[null, null, 3, 4]`
 
 ### Object Comprehensions (TODO)
 
-    objFromArr := { for i, item from array: "thing_{i}", item }
+    objFromArr = { for i, item from array: "thing_{i}", item }
 
-    objFromObj := { for own key, value in obj: key, value * 2 }
+    objFromObj = { for own key, value in obj: key, value * 2 }
 ---
     const objFromObj = (() => {
       const returnValue = {};
@@ -522,7 +576,7 @@ The syntax for this is not yet settled.
 
 ### Blocks
 In LightScript, a `{` at the beginning of a line parses as the start of an object, not a block.
-For example, the following code would be broken in LightScript:
+For example, the following code breaks in LightScript:
 
     if (true)
     {
@@ -584,7 +638,7 @@ and must instead write
 I tried really hard to have no ambiguities.
 Shamefully, at least one has snuck up on me that I don't know a way around:
 
-### Colons, Arrows, and Types
+### Colons, Arrow, and Types
 
 If you have an `if` whose test is a function call,
 and whose consequent is an arrow function without parentheses or curly braces, eg;
@@ -599,3 +653,39 @@ This can be corrected by wrapping the param in parens:
     if fn(): (x) => 4
 
 Sorry.
+
+### Colons, If, and Types
+
+The following code will raise a syntax error:
+
+    if
+      someCondition: obj.prop = value
+
+because `someCondition: obj.prop = value` parses a `const someCondition` declaration
+with the type annotation of `obj.prop` and the value of `value`.
+
+This can be fixed by removing the newline between `if` and `someCondition`:
+
+    if someCondition: obj.prop = value
+
+or by moving the consequent to the next line:
+
+    if
+      someCondition:
+        obj.prop = value
+
+and of course, the dramatically more sane construct works just fine:
+
+    if someCondition:
+      obj.prop = value
+
+Note that multiline `if`s that use binary operators are not subject to this issue:
+
+    if someCondition and
+      anotherCondition: obj.prop = value
+
+parses as expected.
+
+Note also that since LightScript does not allow variable-declaring type annotations
+to contain a newline between the `:` and the type, any `if` or `for`
+that has its body on the next line (or which isn't an assignment) is safe.

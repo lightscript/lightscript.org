@@ -3,10 +3,10 @@ import { Container, Row, Col, NavBar, NavLink } from 'components/bootstrap'
 import fizzBuzzLsc from '!raw!./fizzBuzz.lsc.txt'
 import fizzBuzzJs from '!raw!./fizzBuzz.js.txt'
 
-fizzBuzz := { __html: fizzBuzzLsc }
-fizzBuzzJS := { __html: fizzBuzzJs }
+fizzBuzz = { __html: fizzBuzzLsc }
+fizzBuzzJS = { __html: fizzBuzzJs }
 
-styles := {
+styles = {
   heroSubtitle: {
     color: '#7e8990'
   }

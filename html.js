@@ -3,12 +3,12 @@ import DocumentTitle from 'react-document-title'
 
 import { prefixLink } from 'gatsby-helpers'
 
-BUILD_TIME := new Date().getTime()
+BUILD_TIME = new Date().getTime()
 
 export default HTML({ body }) ->
-  title := DocumentTitle.rewind()
+  title = DocumentTitle.rewind()
 
-  css := if process.env.NODE_ENV == 'production':
+  css = if process.env.NODE_ENV == 'production':
     <style dangerouslySetInnerHTML={{ __html: require('!raw!./public/styles.css') }} />
 
   <html lang="en">

@@ -9,7 +9,7 @@ Container({ children, className, ...etc }) ->
   </div>
 
 Row({ children, alignItems, className, ...etc }) ->
-  classes := cx("row", className, {
+  classes = cx("row", className, {
     [`align-items-${alignItems}`]: alignItems
   })
 
@@ -18,7 +18,7 @@ Row({ children, alignItems, className, ...etc }) ->
   </div>
 
 Col({ children, xs, sm, md, lg, xl, className, ...etc }) ->
-  classes := cx(className, {
+  classes = cx(className, {
     'col': [xs, sm, md, lg, xl]~compact()~isEmpty()
     [`col-${xs}`]: xs
     [`col-sm-${sm}`]: sm
@@ -32,14 +32,14 @@ Col({ children, xs, sm, md, lg, xl, className, ...etc }) ->
   </div>
 
 NavBar({ children, className, ...etc }) ->
-  classes := cx('navbar', 'navbar', 'navbar-toggleable', className)
+  classes = cx('navbar', 'navbar', 'navbar-toggleable', className)
 
   <nav className={classes} {...etc}>
     {children}
   </nav>
 
 NavLink({ children, to, href, isActive, className, ...etc }) ->
-  classes := cx('nav-item', 'nav-link', { active: isActive }, className)
+  classes = cx('nav-item', 'nav-link', { active: isActive }, className)
 
   if href:
     <a href={href} className={classes} {...etc}>

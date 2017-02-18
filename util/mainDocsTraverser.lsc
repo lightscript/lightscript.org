@@ -14,7 +14,7 @@ export default mainDocsTraverser(node) ->
       break
 
     case 'pre':
-      textNodes := node.children.0.children
+      textNodes = node.children.0.children
       // replace, don't recurse
       return makeCodeRow(textNodes)
 
@@ -29,17 +29,17 @@ export default mainDocsTraverser(node) ->
   return node
 
 wrapIntoSectionsByH2(children) ->
-  sections := []
+  sections = []
   for child of children:
     if child.tagName == 'h2':
-      id := `section-${child.properties.id}`
-      newSection := makeSection(id, [child])
+      id = `section-${child.properties.id}`
+      newSection = makeSection(id, [child])
       sections.push(newSection)
     elif child.value == '\n':
       continue
     else:
       if sections.length < 1: sections.push(makeSection('first', []))
-      currentSection := sections~last()
+      currentSection = sections~last()
       currentSection.children.push(child)
 
   sections
@@ -78,16 +78,16 @@ makeHeadingAnchor(id) ->
   }
 
 makeCodeRow(textNodes) ->
-  lsc := textNodes.map(n -> n.value).join('')
+  lsc = textNodes.map(n -> n.value).join('')
 
   let js
   try:
-    js = transform(lsc, { plugins: [lightscriptPlugin] }).code
+    now js = transform(lsc, { plugins: [lightscriptPlugin] }).code
   catch (err):
     try:
-      js = transform(lsc, { presets: [lightscriptPreset] }).code
+      now js = transform(lsc, { presets: [lightscriptPreset] }).code
     catch (err):
-      js = "Not yet implemented.\n\n" + err.message
+      now js = "Not yet implemented.\n\n" + err.message
 
   {
     type: 'element'

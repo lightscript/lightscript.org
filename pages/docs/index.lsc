@@ -16,7 +16,7 @@ import mainDocsTraverser from 'util/mainDocsTraverser'
 import tocTraverser from 'util/tocTraverser'
 import rawDocs from '!raw!./docs.md'
 
-{ TableOfContents, DocsContents } := convertDocsMarkdownToReact()
+{ TableOfContents, DocsContents } = convertDocsMarkdownToReact()
 
 class Docs extends React.Component:
   constructor() ->
@@ -25,7 +25,7 @@ class Docs extends React.Component:
     }
 
   getChildContext() ->
-    { activeSections } := this.state
+    { activeSections } = this.state
     // TODO: debug why fat-arrows aren't working
     onEnter(id) => this.onEnter(id)
     onLeave(id) => this.onLeave(id)
@@ -33,12 +33,12 @@ class Docs extends React.Component:
     { activeSections, onEnter, onLeave }
 
   onEnter(sectionId): void ->
-    { activeSections } := this.state
+    { activeSections } = this.state
     activeSections.add(sectionId)
     this.setState({ activeSections })
 
   onLeave(sectionId): void ->
-    { activeSections } := this.state
+    { activeSections } = this.state
     activeSections.delete(sectionId)
     this.setState({ activeSections })
 
@@ -69,8 +69,8 @@ export default Docs
 
 
 TocSection({ children, section }, { activeSections }) ->
-  isActive := if section: activeSections.has(section)
-  classes := cx("nav-item", { active: isActive })
+  isActive = if section: activeSections.has(section)
+  classes = cx("nav-item", { active: isActive })
 
   <li className={classes}>
     {children}
@@ -80,9 +80,8 @@ TocSection.contextTypes = {
   activeSections: React.PropTypes.object.isRequired
 }
 
-
 ScrollTargetSection({ section, id, children }, { onEnter, onLeave }) ->
-  sectionId := id.replace('section-', '')
+  sectionId = id.replace('section-', '')
   _onEnter() -> onEnter(sectionId)
   _onLeave() -> onLeave(sectionId)
 
@@ -99,17 +98,17 @@ ScrollTargetSection.contextTypes = {
 
 
 convertDocsMarkdownToReact() ->
-  markdownWithTOC := remark()
+  markdownWithTOC = remark()
     .use(toc)
     .process(rawDocs)
     .contents
 
   // HACK; shouldn't need to double-process this way
-  split := markdownWithTOC.split('\n## ')
-  tocMD := split[0].replace('## TOC\n', '')
-  docMD := '## ' + split.slice(1).join('\n## ')
+  split = markdownWithTOC.split('\n## ')
+  tocMD = split[0].replace('## TOC\n', '')
+  docMD = '## ' + split.slice(1).join('\n## ')
 
-  TableOfContents := remark()
+  TableOfContents = remark()
     .use(markdownToReact, {
       traverse: tocTraverser
       remarkReactComponents: {
@@ -121,7 +120,7 @@ convertDocsMarkdownToReact() ->
     .process(tocMD)
     .contents
 
-  DocsContents := remark()
+  DocsContents = remark()
     .use(slug)
     .use(markdownToReact, {
       sanitize: { clobber: ["name"] }

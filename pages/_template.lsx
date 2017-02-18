@@ -10,7 +10,7 @@ import { config } from 'config'
 import 'css/github.css'
 import 'css/app.scss'
 
-styles := {
+styles = {
   navBar: {
     backgroundColor: '#DAF3FF'
     borderBottom: '1px solid #CBE2EC'
@@ -19,8 +19,8 @@ styles := {
 
 
 TopNavBar({ location }) ->
-  docsActive := includes(location.pathname, '/docs/')
-  examplesActive := includes(location.pathname, '/examples/')
+  docsActive = includes(location.pathname, '/docs/')
+  examplesActive = includes(location.pathname, '/examples/')
 
   <NavBar className="justify-content-md-center row navbar-light mb-1" style={styles.navBar}>
     <Col xs={6}>
