@@ -182,6 +182,8 @@ You can also use `elif` and `else if` within if-expressions.
       'dog'
     else if canMeow:
       'cat'
+    elif canQuack:
+      'duck'
     else:
       'cow'
 
@@ -248,53 +250,13 @@ Instead, they are [provided as functions]() in the standard library.
 Bitwise assignment operators (namely `|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
 may be repurposed in the future, but have not yet been removed.
 
-## Existentialism (TODO)
 
-NOTE TO SELF: https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch4.md#comparing-nulls-to-undefineds
-
-NOTE TO OTHERS:
-Work has not yet begun on the Existential features below.
-
-### Existential operator
-    if a?:
-      1
-
-Note that this does not perform an "undeclared" check, as CoffeeScript does.
-If you want to deal with global variables, you must access them from the global object (eg, `window`) directly.
-The compiler or linter should catch references to undeclared variables.
-
-Note that disambiguation between the existential `?` and the ternary `?`
-(as in `test ? 'its truthy' : 'its falsy'`)
-is done on the basis of whether the `?` has a space in front of it.
-
-So `x ?` will be parsed (incorrectly) as the beginning of a ternary,
-while `x? 'truthy' : 'falsy'` will be parsed (incorrectly) as an existential `?`.
-
-The use of `? :` ternaries is discouraged in LightScript in favor of [If-Expressions]().
-
-### null-or
-    c = a ?? b
----
-    const c = (a != null ? a : b);
-
-### or-equals
-    obj.prop ?= 42
----
-    obj.prop = (obj.prop != null ? obj.prop : 42);
+## Null Safety
 
 ### Elvis operator
     d = a?.b?.c
 
 Note that the default value is `null`, unlike CoffeeScript's `undefined`.
-
-### Safe calls
-    if foo?():
-      1
----
-    if (isFunction(foo) ? foo() : null)
-      1
-See [the standard library]() for `isFunction` (tl;dr, it comes from lodash).
-
 
 ## Objects and Arrays
 
@@ -311,17 +273,7 @@ Destructuring, dynamic names, and splats are the same as in JS.
         3
       ...anotherObj
     }
-Commas are not necessary. Using commas in a multiline object raises a linting error.
-
-### Destructured Property Transfer (TODO)
-    bar = { a: 1 }
-    foo = { b: 2, c: 3, d: 4 }
-    bar{ b, c } = foo
----
-    const bar = { a: 1 }
-    const foo = { b: 2, c: 3, d: 4 };
-    bar.b = foo.b;
-    bar.c = foo.c;
+Commas are optional; newlines are preferred.
 
 ### Single-Line Arrays
     arr = [1, 2, 3]
@@ -353,20 +305,6 @@ Again, commas are unnecessary.
       talk() -> 'grrr'
 The same as ES7.
 
-### Shorthand for `this.` (TODO)
-    class Animal:
-      talk() ->
-        ^noise
----
-    class Animal {
-      talk() {
-        return this.noise
-      }
-    }
-The pin operator `^` can be used as shorthand for `this.` outside of classes as well.
-
-Note that unlike coffeescript, `^` cannot be used on its own to refer to `this`. So, for example, `return this` must be written instead of `return ^`
-
 ### Getters and Setters
     class Animal:
       noise() -get>
@@ -391,10 +329,6 @@ As in EcmaScript.
     class Animal:
       static kingdom() => this.name
 In this example, `kingdom()` will always return `'Animal'` regardless of its calling context.
-
-### Pinned constructor params (TODO)
-    class Animal:
-      constructor(^noise, { limbs: { ^numLimbs } }) ->
 
 ### Bound methods
     class MyComponent extends React.Component:
@@ -428,16 +362,6 @@ As in JavaScript. You can use without parens or braces, like so:
         break
 This may be removed in the future, however.
 
-## Numbers
-
-### Underbars (TODO/TBD)
-    oneMillionDollars: Cents = 1_000_000_00
----
-    const oneMillionDollars: Cents = 100000000;
-
-### Restrictions (TODO/TBD)
-Decimals must be prefixed with a zero (eg, `.9` is not allowed, but `0.9` is).
-
 ## `for` loops
 
 EcmaScript has three kinds of `for` loops; `for-in`, `for-of`, and `for (...;...;...)`.
@@ -449,21 +373,6 @@ LightScript adds a fourth.
 Note that the iterator variable is `const` by default.
 
 PSA: using `in` with an Array is usually [not what you want](TODO); use `for-from` instead.
-
-### `for-in` with value (TODO)
-    for key, value in obj:
-      console.log(key, value)
-
-As noted above, should not be used with Arrays.
-
-### `for-own-in` (TODO)
-    for own key in obj:
-      console.log(key)
-
-    for own key, value in obj:
-      console.log(key, value)
-
-As noted above, should not be used with Arrays.
 
 ### `for-of`
     for elem of array:
@@ -553,25 +462,6 @@ Note that if `else` is not provided, items that do not match an `if` are filtere
 will result in `[3, 4]`, not `[null, null, 3, 4]`
 
 
-### Object Comprehensions (TODO)
-
-    objFromArr = { for i, item from array: "thing_{i}", item }
-
-    objFromObj = { for own key, value in obj: key, value * 2 }
----
-    const objFromObj = (() => {
-      const returnValue = {};
-      for (const key in obj) {
-        if (!obj.hasOwnProperty(key)) continue;
-        const value = obj[key];
-        returnValue[key] = value;
-      }
-      return returnValue;
-    });
-
-The syntax for this is not yet settled.
-
-
 ## Incompatibilities with JavaScript
 
 ### Blocks
@@ -633,10 +523,9 @@ and must instead write
       }
     }
 
-## Ambiguities
+## Syntax Ambiguities
 
-I tried really hard to have no ambiguities.
-Shamefully, at least one has snuck up on me that I don't know a way around:
+Unfortunately, there are a few ambiguous corner-cases.
 
 ### Colons, Arrow, and Types
 
@@ -651,8 +540,6 @@ and then throw a SyntaxError: `Unexpected token, expected :`.
 This can be corrected by wrapping the param in parens:
 
     if fn(): (x) => 4
-
-Sorry.
 
 ### Colons, If, and Types
 
