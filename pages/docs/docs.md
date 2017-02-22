@@ -1,5 +1,110 @@
 ## TOC
 
+
+- variables & assignment
+  - const
+  - let and var
+  - type annotations
+  - now
+    - UpdateExpression
+    - shadowing
+    - MemberExpression
+- conditionals
+  - paren-free
+  - curlies
+  - whitespace
+  - elif
+  - if-expressions
+    - beware the indent
+    - implicit else-null
+- operators
+  - ==
+  - !=
+  - and
+  - or
+  - not
+- functions
+  - fat arrows
+    - disappearing name
+  - skinny arrows
+  - methods
+  - implicit returns
+    - void
+    - exceptions
+  - async
+  - get/set
+  - generators
+    - fat-arrow compilation
+  - illegal combinations
+  - type annotations
+    - return types
+    - params
+    - polymoprhism
+- await
+  - await-equals
+    - const, MemberExpression, now
+  - naked await, return await
+  - safe-await
+- property access
+  - SafeMemberExpression
+    - ?.
+    - ?[
+  - Array dot access (array.0)
+  - function property definition
+- tilde-calls
+  - basic example
+  - chaining example
+- for loops
+  - (intro on why arrays suck in js)
+  - (paren-free stuff)
+  - for-in auto-const
+  - for-of auto-const
+  - for-from array
+    - index
+    - element
+  - for-from range
+  - for ;;
+- array comprehensions
+  - nested-for
+  - matrix
+- while loops
+  - do-while
+- switch
+- Arrays
+  - commaless
+- Objects
+  - commaless
+  - methods
+  - bound methods
+- Classes
+  - support for ES7 features
+  - { or :
+  - methods
+  - bound methods
+  - constructors
+    - constructor() insertion
+    - super() insertion
+      - arguments
+- Automatic Semicolon Insertion
+  - `+` and `-`, binary and unary
+  - `/`, division and regular expression
+  - `(`, expressions and function calls
+  - `<`, less-than and JSX
+  - `[`, index-access and arrays
+  - number-access... look into this
+- Inconsistencies, Ambiguities, and Known Bugs
+- Deviations from JavaScript
+  - `==`, `!=`
+  - `~`
+  - keywords
+    - `now`, `or`, `and`, `not`, `til`, `thru`, `from`(?)
+  - ASI. "broken" things:
+    - `[0]` at same indent level
+    - unspaced binary `+`, `-`, `/`
+    - regex with an opening space
+  - typedef no breaks
+
+
 ## Variables & Assignment
 
 ### `const`
@@ -15,11 +120,14 @@ the `const` keyword is still valid:
 
     const foo = 'hello'
 
-### Annotated `const`
+#### `const` with type annotations
 
     foo: string = 'hello'
 
 LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
+
+As a rule of thumb, anywhere you can use Flow syntax in JavaScript,
+you can use the same syntax in LightScript.
 
 Note that, unlike in JavaScript, the type annotation cannot be followed by a newline:
 
