@@ -14,9 +14,11 @@ export default mainDocsTraverser(node) ->
       break
 
     case 'pre':
-      textNodes = node.children.0.children
-      // replace, don't recurse
-      return makeCodeRow(textNodes)
+      if node.children.length == 1 and node.children.0.tagName == 'code':
+        textNodes = node.children.0.children
+        // replace, don't recurse
+        return makeCodeRow(textNodes)
+      break
 
     case 'div':
       node.children = wrapIntoSectionsByH2(node.children)
@@ -78,7 +80,7 @@ makeHeadingAnchor(id) ->
   }
 
 makeCodeRow(textNodes) ->
-  lsc = textNodes.map(n -> n.value).join('')
+  lsc = textNodes.map(n -> n.value).join('').trim()
 
   let js
   try:
@@ -87,12 +89,12 @@ makeCodeRow(textNodes) ->
     try:
       now js = transform(lsc, { presets: [lightscriptPreset] }).code
     catch (err):
-      now js = "Not yet implemented.\n\n" + err.message
+      now js = err.message
 
   {
     type: 'element'
     tagName: 'div'
-    properties: { class: 'row' }
+    properties: { class: 'row mb-3' }
     children: [makeCodeCol(lsc), makeCodeCol(js)]
   }
 

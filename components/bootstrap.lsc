@@ -3,12 +3,12 @@ import { Link } from 'react-router'
 import cx from 'classnames'
 import { compact, isEmpty } from 'lodash'
 
-Container({ children, className, ...etc }) ->
+export Container({ children, className, ...etc }) ->
   <div className={cx("container", className)} {...etc}>
     {children}
   </div>
 
-Row({ children, alignItems, className, ...etc }) ->
+export Row({ children, alignItems, className, ...etc }) ->
   classes = cx("row", className, {
     [`align-items-${alignItems}`]: alignItems
   })
@@ -17,7 +17,7 @@ Row({ children, alignItems, className, ...etc }) ->
     {children}
   </div>
 
-Col({ children, xs, sm, md, lg, xl, className, ...etc }) ->
+export Col({ children, xs, sm, md, lg, xl, className, ...etc }) ->
   classes = cx(className, {
     'col': [xs, sm, md, lg, xl]~compact()~isEmpty()
     [`col-${xs}`]: xs
@@ -31,14 +31,14 @@ Col({ children, xs, sm, md, lg, xl, className, ...etc }) ->
     {children}
   </div>
 
-NavBar({ children, className, ...etc }) ->
+export NavBar({ children, className, ...etc }) ->
   classes = cx('navbar', 'navbar', 'navbar-toggleable', className)
 
   <nav className={classes} {...etc}>
     {children}
   </nav>
 
-NavLink({ children, to, href, isActive, className, ...etc }) ->
+export NavLink({ children, to, href, isActive, className, ...etc }) ->
   classes = cx('nav-item', 'nav-link', { active: isActive }, className)
 
   if href:
@@ -50,9 +50,23 @@ NavLink({ children, to, href, isActive, className, ...etc }) ->
       {children}
     </Link>
 
-Nav({ children, className, ...etc }) ->
+export Nav({ children, className, ...etc }) ->
   <ul className={cx("nav flex-column", className)} {...etc}>
     {children}
   </ul>
 
-export { Container, Row, Col, NavBar, NavLink, Nav }
+export Table({ children, striped, bordered, hover, className, ...etc }) ->
+  classes = cx("table", className, {
+    'table-striped': striped
+    'table-bordered': bordered
+    'table-hover': hover
+  })
+
+  <table className={classes} {...etc}>
+    {children}
+  </table>
+
+export Blockquote({ children, className, ...etc }) ->
+  <blockquote className={cx('blockquote', className)} {...etc}>
+    {children}
+  </blockquote>
