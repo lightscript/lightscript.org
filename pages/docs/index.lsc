@@ -13,9 +13,12 @@ import { config } from 'config'
 import remark from 'remark'
 import toc from 'remark-toc'
 import slug from 'remark-slug'
+import { highlight } from 'highlight.js'
+
 import markdownToReact from 'util/markdownToReact'
 import mainDocsTraverser from 'util/mainDocsTraverser'
 import tocTraverser from 'util/tocTraverser'
+import compileLscToJs from 'util/compileLscToJs'
 import rawDocs from '!raw!./docs.md'
 
 { TableOfContents, DocsContents } = convertDocsMarkdownToReact()
@@ -98,6 +101,28 @@ ScrollTargetSection.contextTypes = {
   onLeave: React.PropTypes.func.isRequired
 }
 
+CodeCol({ code, syntax }) ->
+  html =
+    if syntax == 'js':
+      highlight('js', code, true).value
+    elif syntax == 'lsc':
+      highlight('js', code, true).value
+    else:
+      code
+
+  <Col sm="6">
+    <pre className="h-100">
+      <code dangerouslySetInnerHTML={{ __html: html }} />
+    </pre>
+  </Col>
+
+CompiledCode({ lsc }) ->
+  js = compileLscToJs(lsc)
+
+  <Row className="mb-3">
+    <CodeCol code={lsc} syntax="lsc" />
+    <CodeCol code={js} syntax="js" />
+  </Row>
 
 convertDocsMarkdownToReact() ->
   markdownWithTOC = remark()
@@ -131,6 +156,7 @@ convertDocsMarkdownToReact() ->
         section: ScrollTargetSection
         table: Table
         blockquote: Blockquote
+        CompiledCode
       }
     })
     .process(docMD)

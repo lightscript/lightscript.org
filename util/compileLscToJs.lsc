@@ -1,0 +1,13 @@
+import lightscriptPlugin from 'babel-plugin-lightscript'
+import lightscriptPreset from 'babel-preset-lightscript'
+
+import { transform } from 'babel-standalone'
+
+export default compileLscToJs(lsc) ->
+  try:
+    return transform(lsc, { plugins: [lightscriptPlugin] }).code
+  catch (err):
+    try:
+      return transform(lsc, { presets: [lightscriptPreset] }).code
+    catch (err):
+      return err.message

@@ -1,11 +1,6 @@
 import last from 'lodash/last'
 import includes from 'lodash/includes'
 
-import lightscriptPlugin from 'babel-plugin-lightscript'
-import lightscriptPreset from 'babel-preset-lightscript'
-
-import { transform } from 'babel-standalone'
-
 export default mainDocsTraverser(node) ->
   switch node.tagName {
     case 'h2':
@@ -82,20 +77,11 @@ makeHeadingAnchor(id) ->
 makeCodeRow(textNodes) ->
   lsc = textNodes.map(n -> n.value).join('').trim()
 
-  let js
-  try:
-    now js = transform(lsc, { plugins: [lightscriptPlugin] }).code
-  catch (err):
-    try:
-      now js = transform(lsc, { presets: [lightscriptPreset] }).code
-    catch (err):
-      now js = err.message
-
   {
     type: 'element'
-    tagName: 'div'
-    properties: { class: 'row mb-3' }
-    children: [makeCodeCol(lsc), makeCodeCol(js)]
+    tagName: 'CompiledCode'
+    properties: { class: 'row mb-3', lsc }
+    children: []
   }
 
 makeCodeCol(code) ->
