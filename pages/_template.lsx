@@ -19,8 +19,8 @@ styles = {
 
 
 TopNavBar({ location }) ->
-  docsActive = includes(location.pathname, '/docs/')
-  examplesActive = includes(location.pathname, '/examples/')
+  docsActive = location.pathname~includes('/docs/')
+  examplesActive = location.pathname~includes('/examples/')
 
   <NavBar className="justify-content-md-center row navbar-light mb-1" style={styles.navBar}>
     <Col xs={6}>
@@ -32,9 +32,6 @@ TopNavBar({ location }) ->
     <Col xs={'auto'} className="navbar-nav float-right">
       <NavLink to={prefixLink('/docs/')} isActive={docsActive}>
         Documentation
-      </NavLink>
-      <NavLink to={prefixLink('/examples/')} isActive={examplesActive}>
-        Examples
       </NavLink>
       <NavLink href="https://github.com/lightscript/lightscript">
         Github

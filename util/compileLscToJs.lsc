@@ -1,13 +1,18 @@
 import lightscriptPlugin from 'babel-plugin-lightscript'
 import lightscriptPreset from 'babel-preset-lightscript'
-
+import prettier from 'prettier'
 import { transform } from 'babel-standalone'
 
 export default compileLscToJs(lsc) ->
+  let js
   try:
-    return transform(lsc, { plugins: [lightscriptPlugin] }).code
+    now js = transform(lsc, { plugins: [lightscriptPlugin] }).code
   catch (err):
     try:
-      return transform(lsc, { presets: [lightscriptPreset] }).code
+      now js = transform(lsc, { presets: [lightscriptPreset] }).code
     catch (err):
       return err.message
+
+  prettier.format(js, {
+    printWidth: 60
+  })

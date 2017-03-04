@@ -6,7 +6,7 @@
 
 LightScript is `const` by default; the keyword is not necessary:
 
-    greeting = 'May the force be with you'
+    greeting = 'Hello, World!'
 
 This is also true when destructuring:
 
@@ -15,16 +15,20 @@ This is also true when destructuring:
 Because LightScript is a (rough) superset of JavaScript,
 the `const` keyword is also valid:
 
-    const greeting = 'May the force be with you'
+    const greeting = 'Hello, World!'
 
-### `const` with type annotations
+LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax,
+so you can optionally annotate types:
 
-    greeting: string = 'May the force be with you'
-
-LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
+    greeting: string = 'Hello, World!'
 
 As a rule of thumb, anywhere you can use Flow syntax in JavaScript,
 you can use the same syntax in LightScript.
+
+Integration with the Flow typechecker has **not been built yet**,
+so while you can annotate your types, they will not yet be statically checked.
+As a stopgap, the `babel-preset-lightscript` includes
+[tcomb](https://github.com/gcanti/babel-plugin-tcomb), which provides runtime typechecks.
 
 Note that, unlike in JavaScript, the `:` cannot be followed by a newline.
 
@@ -32,23 +36,25 @@ Note that, unlike in JavaScript, the `:` cannot be followed by a newline.
 
 `let` and `var` are the same as in JavaScript.
 
-However, to reassign a variable, you must use the keyword `now`.
+    let friendCount = 1
+
+However, to reassign a variable, you must use the keyword `now`:
+
+    let friendCount = 1
+    // makes a friend...
+    now friendCount = 2
+
+### Updating values
+
+Reassigning or updating a variable requires the `now` keyword.
 This makes it more clear when you are reassigning
 (which shouldn't be often), and enables the `const`-by-default syntax.
 
     let isDarkSide = false
-    // ... Anakin gets stuck in traffic ...
+    // ... gets stuck in traffic ...
     now isDarkSide = true
 
 This can be a bit tricky at first:
-
-    let hanSolo
-    if debt.isPaid():
-      hanSolo = 'free to go'
-    else:
-      hanSolo = 'frozen in carbonite'
-
-doesn't do what you want, since the inner `weekend` variables are redeclared as shadow `const` variables; instead, you need to use `now`:
 
     let hanSolo
     if debt.isPaid():
@@ -56,9 +62,19 @@ doesn't do what you want, since the inner `weekend` variables are redeclared as 
     else:
       now hanSolo = 'frozen in carbonite'
 
-(Note that the above code would be better written with an [`if` expression](#if-expressions)).
+is correct, but the following doesn't do what you want:
 
-### Updating values
+    let hanSolo
+    if debt.isPaid():
+      // WRONG! must use `now`
+      hanSolo = 'free to go'
+    else:
+      // WRONG! must use `now`
+      hanSolo = 'frozen in carbonite'
+
+since the inner `hanSolo` variables are redeclared as shadow `const` variables.
+
+(Note that the above code would be better written with an [`if` expression](#if-expressions)).
 
 Assignments that update a variable also require the `now` keyword:
 
@@ -216,9 +232,10 @@ call the [`coercingNotEq()`]() function from the standard library.
 `not` may be removed from the language in the future.
 
 
-## Function Definition
+## Functions and Methods
 
-JavaScript has half a dozen ways to define a function; LightScript unifies that to just one, consistent across contexts.
+JavaScript has half a dozen ways to define a function;
+LightScript unifies that to just one, consistent across contexts.
 
 The basic syntax comes from stripping down the fat arrow:
 
@@ -329,8 +346,6 @@ You can't combine `*` and `/` into, say, `-*/>` because async functions can't
 also be generator functions.
 
 See also [`get` and `set`](#getters-and-setters), below.
-
-## Methods
 
 ### Basic Methods
     obj = {
@@ -630,7 +645,7 @@ will result in `[3, 4]`, not `[null, null, 3, 4]`
 Coming soon.
 
 
-## `for` loops
+## Loops
 
 Iteration in JavaScript is a bit of a mess.
 
@@ -724,7 +739,7 @@ Note that you can combine this with single-line `if` statements:
     for x of stuff: if x > 3: print(x)
 
 
-## `while` loops
+### `while` loops
 
 As in JavaScript, with the standard syntax options:
 
@@ -740,7 +755,7 @@ Curly braces for the `do` block are required; parens for the `while` clause are 
     } while true
 
 
-## Switch
+### `switch`
 
 As in JavaScript. Curly braces around the `case`s are required;
 parens around the discriminant are not:
@@ -752,6 +767,7 @@ parens around the discriminant are not:
         break
     }
 
+This may change in the future. A `guard` or `match` feature may also be added.
 
 ## Classes
 
@@ -1051,7 +1067,7 @@ isOver100 = twoHundred
   < myNumber
 ```
 
-## Inconsistencies, Ambiguities, and Known Bugs
+## Known Ambiguities
 
 Unfortunately, there are a few ambiguous corner-cases.
 You are unlikely to hit them and there are easy fixes.

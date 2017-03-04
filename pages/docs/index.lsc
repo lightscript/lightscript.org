@@ -51,13 +51,13 @@ class Docs extends React.Component:
     <Container className="py-5">
       <StickyContainer>
         <Row>
-          <Col sm={3}>
+          <Col sm={3} className="hidden-sm-down">
             <Sticky className="px-4 pt-2 docs-ref-toc">
               {TableOfContents}
             </Sticky>
           </Col>
 
-          <Col className="px-5 py-2 docs-ref-docs">
+          <Col className="px-2 sm-px-5 py-2 docs-ref-docs">
             {DocsContents}
           </Col>
         </Row>
@@ -106,12 +106,13 @@ CodeCol({ code, syntax }) ->
     if syntax == 'js':
       highlight('js', code, true).value
     elif syntax == 'lsc':
+      // TODO: use lsc syntax
       highlight('js', code, true).value
     else:
       code
 
-  <Col sm="6">
-    <pre className="h-100">
+  <Col sm="6" className={syntax}>
+    <pre className="h-100 pt-2">
       <code dangerouslySetInnerHTML={{ __html: html }} />
     </pre>
   </Col>
@@ -119,10 +120,12 @@ CodeCol({ code, syntax }) ->
 CompiledCode({ lsc }) ->
   js = compileLscToJs(lsc)
 
-  <Row className="mb-3">
-    <CodeCol code={lsc} syntax="lsc" />
-    <CodeCol code={js} syntax="js" />
-  </Row>
+  <div className="compiled-code-group compiled-code-group-highlight mb-3">
+    <Row className="mx-0">
+      <CodeCol code={lsc} syntax="lsc" />
+      <CodeCol code={js} syntax="js" />
+    </Row>
+  </div>
 
 convertDocsMarkdownToReact() ->
   markdownWithTOC = remark()

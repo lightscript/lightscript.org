@@ -1,14 +1,21 @@
 import React from 'react'
 import { Container, Row, Col, NavBar, NavLink } from 'components/bootstrap'
-import fizzBuzzLsc from '!raw!./fizzBuzz.lsc.txt'
-import fizzBuzzJs from '!raw!./fizzBuzz.js.txt'
+import cx from 'classnames'
+import compileLscToJs from 'util/compileLscToJs'
 
-fizzBuzz = { __html: fizzBuzzLsc }
-fizzBuzzJS = { __html: fizzBuzzJs }
+import reactExample from '!raw!./reactExample.lsc.txt'
+
+// HACK: can't load Ace during ssr
+let AceEditor
+if typeof window != 'undefined' and window:
+  now AceEditor = require('react-ace').default
+  require('brace')
+  require('brace/mode/jsx')
+  require('brace/theme/chrome')
 
 styles = {
   heroSubtitle: {
-    color: '#7e8990'
+    color: 'hsla(203, 7%, 30%, 1)'
   }
   codeWrapper: {
     boxShadow: '0px 0px 6px 1px rgba(0,0,0,.1)'
@@ -17,88 +24,208 @@ styles = {
 
 Hero() ->
   <div className="py-4 mt-n1 hero">
-    <center className="pt-5 pb-3">
+    <center className="pt-7 pb-3">
       <h1 style={styles.heroTitle}>LightScript</h1>
-      <h4>
-        <em style={styles.heroSubtitle}>
-          JavaScript, with a cleaned-up syntax and a few conveniences.
-        </em>
-      </h4>
+      <h3 className="pt-2" style={styles.heroSubtitle}>
+        JavaScript, with cleaned-up syntax and a few conveniences.
+      </h3>
     </center>
 
     <Container>
       <Row className="justify-content-sm-center">
         <Col sm={8}>
           <center>
-            <p className="lead pt-2">
-              Built to make programmers more productive by zapping cruft. ⚡
+            <p className="lead pt-4">
+              A superset of ES7 with JSX and Flow,
+              <br />
+              implemented as a fork of Babel’s parser wrapped in a Babel plugin.
             </p>
-            <p className="lead pb-2">
-              Implemented as a fork of Babel’s parser (babylon) wrapped in a Babel plugin.
-              Fully compatible with JSX, all ES6/7 features, and the Flow static typing engine.
+            <p className="lead pb-6">
+              Built to make programmers a little more productive.
             </p>
-            <p className="text-muted">Coming soon. A quick taste:</p>
           </center>
         </Col>
       </Row>
     </Container>
   </div>
 
-export default () ->
+// http://stackoverflow.com/a/7616484
+hashStr(str) =>
+  let hash = 0
+  if str.length == 0: return hash
+
+  for i from str:
+    chr = str.charCodeAt(i)
+    now hash = ((hash << 5) - hash) + chr
+    now hash |= 0
+  hash
+
+CodeCol({ code, syntax, onChange }) =>
+  if not AceEditor:
+    return <Col sm="6" className={cx("p-3", syntax)}><pre>{code}</pre></Col>
+
+  <Col sm="6" className={cx("p-3", syntax)}>
+    <AceEditor
+      mode="jsx"
+      theme="chrome"
+      value={code}
+      height='100%'
+      width='100%'
+      style={{
+        backgroundColor: 'transparent'
+        minHeight: `${code.split('\n').length}rem`
+      }}
+      showGutter={false}
+      tabSize={2}
+      onChange={onChange}
+      readOnly={syntax == 'js'}
+      name={`code-${hashStr(code)}`}
+    />
+  </Col>
+
+class CompiledCode extends React.Component:
+  // TODO: use =>
+  updateLsc(lsc): void ->
+    this.setState({ lsc })
+
+  render() ->
+    lsc = this.state?.lsc or this.props.lsc
+    js = compileLscToJs(lsc)
+
+    <Row className="mb-3 compiled-code-group compiled-code-group-ace">
+      <CodeCol code={lsc} syntax="lsc" onChange={(lsc) => this.updateLsc(lsc)} />
+      <CodeCol code={js} syntax="js" />
+    </Row>
+
+ReactExample() =>
+  <Row className="justify-content-sm-center mt-n3">
+    <Col sm={10}>
+      <CompiledCode lsc={reactExample.trim()} />
+    </Col>
+  </Row>
+
+HomepageSection({ children }) ->
+  <Row className="justify-content-sm-center my-5">
+    <Col sm={8}>
+      {children}
+    </Col>
+  </Row>
+
+Installation() =>
+  <HomepageSection>
+    <h3>Installation & Usage</h3>
+
+    <p>
+      For all ES7 features (including <code>import</code>) and runtime typechecks, use the preset:
+    </p>
+    <p>
+      <h4><code>npm install --save babel-preset-lightscript</code></h4>
+    </p>
+
+    <p>
+      If you just want the core language, use the plugin:
+    </p>
+    <code>npm install --save babel-plugin-lightscript</code>
+  </HomepageSection>
+
+ProjectStatus() =>
+  <HomepageSection>
+    <h3>Project Status</h3>
+    <p>
+      <em>(as of March 2017)</em>
+    </p>
+    <p>
+      LightScript is ready to be used as alpha software.
+      The language itself is "mostly done", with a few nice-to-have features
+      not yet built but a solid core complete.
+    </p>
+    <p>
+      Tooling is immature, though there is hacky syntax highlighting for
+      {' '}
+      <a href="https://atom.io/packages/lightscript-atom" target="_blank">
+        Atom
+      </a>
+      {' '}and{' '}
+      <a href="https://github.com/lightscript/lightscript-sublime" target="_blank">
+        Sublime
+      </a>. Prorities include:
+      more and better syntax highlighters;{' '}
+      <a href="https://github.com/prettier/prettier" target="_blank">
+        prettier
+      </a>-based auto-formatting;
+      js-to-lightscript compilation;
+      a standalone `lightscript` CLI;
+      eslint support;
+      and integration with the Flow typechecker.
+    </p>
+    <p>
+      Better documentation (particuarly guides and feature explanations)
+      is also a high priority. For now,
+      the <a href="https://github.com/lightscript/lightscript.org">
+        source code for this website
+      </a> is the best example of LightScript code in the wild.
+    </p>
+    <p>
+      I'm currently feeling out whether this project will be popular
+      and impactful enough to be worth heavily investing in (there's a lot to do).
+      There will be no backwards-compatibility
+      guarantees until the project hits v1.0 (at least a year)
+      and it may be shelved entirely.
+    </p>
+    <p>
+      Please don't rely on LightScript for Serious Production Stuff yet.
+    </p>
+  </HomepageSection>
+
+CompletedFeatures() =>
+  <HomepageSection>
+    <h3>Features</h3>
+    <p>
+      <em>In addition to all all ES7, JSX, and Flow features:</em>
+    </p>
+
+    <ul>
+      <li>(Optional) Significant Indentation</li>
+      <li>Implicit Returns</li>
+      <li>If Expressions</li>
+      <li>Auto const</li>
+      <li>Async/Await shorthand</li>
+      <li>Safe-Await</li>
+      <li>Readable Operators (or, and, ==, etc)</li>
+      <li>Bound Methods</li>
+      <li>Commaless Objects and Arrays</li>
+      <li>Automatic Semicolon Insertion that always works</li>
+      <li>Array Comprehensions</li>
+      <li>Array-based for-loops</li>
+      <li>Range-based for-loops</li>
+
+      <li>several others</li>
+    </ul>
+
+    <p>
+      Tests for all features can be seen{' '}
+      <a href="https://github.com/lightscript/babylon-lightscript/tree/lightscript/test/fixtures/lightscript">
+        here
+      </a>
+      {' '}and{' '}
+      <a href="https://github.com/lightscript/babel-plugin-lightscript/tree/master/test/fixtures">
+        here
+      </a>.
+    </p>
+  </HomepageSection>
+
+export default () =>
   <div className="pb-6">
     <Hero />
-    <Container>
-      <Row className="justify-content-sm-center mt-n4">
-        <Col md={5}>
-          <div style={styles.codeWrapper} className="h-100">
-            <pre className="mb-0 h-100">
-              <code className="language-coffee" dangerouslySetInnerHTML={fizzBuzz} />
-            </pre>
-          </div>
-        </Col>
-        <Col md={5}>
-          <div style={styles.codeWrapper} className="h-100">
-            <pre className="mb-0 h-100">
-              <code className="language-coffee" dangerouslySetInnerHTML={fizzBuzzJS} />
-            </pre>
-          </div>
-        </Col>
-      </Row>
-      <Row className="justify-content-sm-center">
-        <Col sm={8}>
-          <p>Completed features include:</p>
-          <ul>
-            <li>implicit returns</li>
-            <li>optional whitespace</li>
-            <li>if-expressions</li>
-            <li>array comprehensions</li>
-            <li>unified function declaration</li>
-            <li>bound methods</li>
-            <li>const shorthand</li>
-            <li>automatic semicolon insertion</li>
-            <li>range-based for-loops</li>
-            <li>array-based for-loops</li>
-            <li>commaless objects and arrays</li>
-            <li>several others</li>
-          </ul>
 
-          <p>Real documentation with compelling examples is the top priority at this point. Tooling is next.</p>
-          <p>
-            WIP tests can be seen{' '}
-            <a href="https://github.com/lightscript/babylon-lightscript/tree/lightscript/test/fixtures/lightscript">
-              here
-            </a>
-            {' '}and{' '}
-            <a href="https://github.com/lightscript/babel-plugin-lightscript/tree/master/test/fixtures">
-              here
-            </a>
-            . WIP docs are{' '}
-            <a href="https://github.com/lightscript/planning/blob/wip/docs.md">
-              here
-            </a>
-            , though not really intended for public viewing just yet.
-          </p>
-        </Col>
-      </Row>
+    <Container>
+      <ReactExample />
+
+      <Installation />
+
+      <CompletedFeatures />
+
+      <ProjectStatus />
+
     </Container>
   </div>
