@@ -118,9 +118,9 @@ Installation() =>
     <p>
       For all ES7 features (including <code>import</code>) and runtime typechecks, use the preset:
     </p>
-    <p>
-      <h4><code>npm install --save babel-preset-lightscript</code></h4>
-    </p>
+    <h4>
+      <code>npm install --save babel-preset-lightscript</code>
+    </h4>
 
     <p>
       If you just want the core language, use the plugin:
