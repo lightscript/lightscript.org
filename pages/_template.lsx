@@ -1,4 +1,5 @@
 import React from 'react'
+import DocumentTitle from 'react-document-title'
 import { Link } from 'react-router'
 import { Container, Row, Col, NavBar, NavLink } from 'components/bootstrap'
 import { prefixLink } from 'gatsby-helpers'
@@ -19,8 +20,7 @@ styles = {
 
 
 TopNavBar({ location }) ->
-  docsActive = location.pathname~includes('/docs/')
-  examplesActive = location.pathname~includes('/examples/')
+  docsActive = location.pathname~includes('/docs')
 
   <NavBar className="justify-content-md-center row navbar-light mb-1" style={styles.navBar}>
     <Col xs={6}>
@@ -40,7 +40,13 @@ TopNavBar({ location }) ->
   </NavBar>
 
 export default ({ children, location }) ->
-  <div>
-    <TopNavBar location={location} />
-    {children}
-  </div>
+  title =
+    if location.pathname~includes('/docs'): 'LightScript Language Reference'
+    else: 'LightScript: JavaScript, with cleaned-up syntax and a few conveniences'
+
+  <DocumentTitle title={title}>
+    <div>
+      <TopNavBar location={location} />
+      {children}
+    </div>
+  </DocumentTitle>
