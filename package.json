@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
-    "babel-plugin-lightscript": "lightscript/babel-plugin-lightscript",
+    "babel-plugin-lightscript": "latest",
     "babel-preset-env": "^1.1.8",
-    "babel-preset-lightscript": "lightscript/babel-preset-lightscript",
+    "babel-preset-lightscript": "latest",
     "babel-standalone": "^6.22.1",
     "chroma-js": "^0.7.2",
     "classnames": "^2.2.5",
