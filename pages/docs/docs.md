@@ -54,28 +54,6 @@ This makes it more clear when you are reassigning
     // ... gets stuck in traffic ...
     now isDarkSide = true
 
-This can be a bit tricky at first:
-
-    let hanSolo
-    if debt.isPaid():
-      now hanSolo = 'free to go'
-    else:
-      now hanSolo = 'frozen in carbonite'
-
-is correct, but the following doesn't do what you want:
-
-    let hanSolo
-    if debt.isPaid():
-      // WRONG! must use `now`
-      hanSolo = 'free to go'
-    else:
-      // WRONG! must use `now`
-      hanSolo = 'frozen in carbonite'
-
-since the inner `hanSolo` variables are redeclared as shadow `const` variables.
-
-(Note that the above code would be better written with an [`if` expression](#if-expressions)).
-
 Assignments that update a variable also require the `now` keyword:
 
     let planetsDestroyed = 0
@@ -92,6 +70,33 @@ Similarly, non-assignment updates allow but do not currently require `now`:
 
     now planetsDestroyed++
     planetsDestroyed++
+
+### Shadowing Variables
+
+You cannot shadow a variable using `const` shorthand:
+
+    let myVar = 2
+    if (true) {
+      myVar = 3
+    }
+
+The above is not allowed because it looks ambiguous and confusing;
+did you mean to declare a new variable, or were you trying to update
+the existing variable, and just forgot to use `now`?
+
+Instead, you must explictly use either `now` or `const`:
+
+    let myVar = 2
+    if (true) {
+      const myVar = 3
+    }
+    myVar === 2 // true
+
+    let myOtherVar = 4
+    if (true) {
+      now myOtherVar = 5
+    }
+    myOtherVar === 5 // true
 
 ## Whitespace
 
@@ -298,7 +303,12 @@ To disable implicit returns for a method, give it a `void` type annotation.
     foo(): void ->
       1
 
-LightScript does not add implicit returns to setter methods or constructor methods.
+LightScript does not add implicit returns:
+
+- To functions with a `void` returnType annotation (eg; `fn(): void ->`).
+- To setter methods (eg; `{ prop(newValue) -set> this._prop = newValue }`).
+- To constructor methods (eg; `constructor() ->`), which generaly should not return.
+- When the function ends in a variable assignment (eg; `fn() -> x = 2`).
 
 ### Annotated
 
