@@ -23,6 +23,12 @@ import rawDocs from '!raw!./docs.md'
 
 { TableOfContents, DocsContents } = convertDocsMarkdownToReact()
 
+class PureDocsContents extends React.PureComponent:
+  render() ->
+    <div>
+      {DocsContents}
+    </div>
+
 class Docs extends React.Component:
   constructor() ->
     this.state = {
@@ -58,7 +64,7 @@ class Docs extends React.Component:
           </Col>
 
           <Col className="px-2 sm-px-5 py-2 docs-ref-docs">
-            {DocsContents}
+            <PureDocsContents />
           </Col>
         </Row>
       </StickyContainer>
@@ -138,7 +144,7 @@ convertDocsMarkdownToReact() ->
   tocMD = split[0].replace('## TOC\n', '')
   docMD = '## ' + split.slice(1).join('\n## ')
 
-  TableOfContents = remark()
+  const TableOfContents = remark()
     .use(markdownToReact, {
       traverse: tocTraverser
       remarkReactComponents: {
@@ -150,7 +156,7 @@ convertDocsMarkdownToReact() ->
     .process(tocMD)
     .contents
 
-  DocsContents = remark()
+  const DocsContents = remark()
     .use(slug)
     .use(markdownToReact, {
       sanitize: { clobber: ["name"] }
