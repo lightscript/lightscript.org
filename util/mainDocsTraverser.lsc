@@ -35,7 +35,8 @@ wrapIntoSectionsByH2(children) ->
     elif child.value == '\n':
       continue
     else:
-      if sections.length < 1: sections.push(makeSection('first', []))
+      if sections.length < 1:
+        sections.push(makeSection('first', []))
       currentSection = sections~last()
       currentSection.children.push(child)
 
