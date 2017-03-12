@@ -1,0 +1,60 @@
+import React from 'react'
+import cx from 'classnames'
+import Waypoint from 'react-waypoint'
+import { Row, Col, NavLink, Nav, Table, Blockquote } from 'components/bootstrap'
+import { highlight } from 'highlight.js'
+import compileLscToJs from 'util/compileLscToJs'
+
+export TocSection({ children, section }, { activeSections }) ->
+  isActive = if section: activeSections.has(section)
+  classes = cx("nav-item", { active: isActive })
+
+  <li className={classes}>
+    {children}
+  </li>
+
+TocSection.contextTypes = {
+  activeSections: React.PropTypes.object.isRequired
+}
+
+export ScrollTargetSection({ section, id, children }, { onEnter, onLeave }) ->
+  sectionId = id.replace('section-', '')
+  _onEnter() -> onEnter(sectionId)
+  _onLeave() -> onLeave(sectionId)
+
+  <Waypoint onEnter={_onEnter} onLeave={_onLeave}>
+    <section id={id}>
+      {children}
+    </section>
+  </Waypoint>
+
+ScrollTargetSection.contextTypes = {
+  onEnter: React.PropTypes.func.isRequired
+  onLeave: React.PropTypes.func.isRequired
+}
+
+CodeCol({ code, syntax }) ->
+  html =
+    if syntax == 'js':
+      highlight('js', code, true).value
+    elif syntax == 'lsc':
+      // TODO: use lsc syntax
+      highlight('js', code, true).value
+    else:
+      code
+
+  <Col sm="6" className={syntax}>
+    <pre className="h-100 pt-2">
+      <code dangerouslySetInnerHTML={{ __html: html }} />
+    </pre>
+  </Col>
+
+CompiledCode({ lsc })->
+  js = compileLscToJs(lsc)
+
+  <div className="compiled-code-group compiled-code-group-highlight mb-3">
+    <Row className="mx-0">
+      <CodeCol code={lsc} syntax="lsc" />
+      <CodeCol code={js} syntax="js" />
+    </Row>
+  </div>

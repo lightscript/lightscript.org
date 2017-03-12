@@ -1,0 +1,54 @@
+import { NavLink, Nav, Table, Blockquote } from 'components/bootstrap'
+import { TocSection, ScrollTargetSection, CompiledCode } from 'components/docs'
+
+import remark from 'remark'
+import toc from 'remark-toc'
+import slug from 'remark-slug'
+
+import markdownToReact from 'util/markdownToReact'
+import mainDocsTraverser from 'util/mainDocsTraverser'
+import tocTraverser from 'util/tocTraverser'
+
+import rawDocs from '!raw!pages/docs/docs.md'
+
+
+export default convertDocsMarkdownToReact() ->
+  markdownWithTOC = remark()
+    .use(toc)
+    .process(rawDocs)
+    .contents
+
+  // HACK; shouldn't need to double-process this way
+  split = markdownWithTOC.split('\n## ')
+  tocMD = split[0].replace('## TOC\n', '')
+  docMD = '## ' + split.slice(1).join('\n## ')
+
+  TableOfContents = remark()
+    .use(markdownToReact, {
+      traverse: tocTraverser
+      remarkReactComponents: {
+        ul: Nav
+        TocSection: TocSection
+        a: NavLink
+      }
+    })
+    .process(tocMD)
+    .contents
+
+  DocsContents = remark()
+    .use(slug)
+    .use(markdownToReact, {
+      sanitize: { clobber: ["name"] }
+      traverse: mainDocsTraverser
+      remarkReactComponents: {
+        section: ScrollTargetSection
+        table: Table
+        blockquote: Blockquote
+        CompiledCode
+      }
+    })
+    .process(docMD)
+    .contents
+    .props.children
+
+  { TableOfContents, DocsContents }
