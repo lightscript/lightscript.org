@@ -40,8 +40,11 @@ Hero() ->
               <br />
               implemented as a fork of Babel’s parser wrapped in a Babel plugin.
             </p>
-            <p className="lead pb-6">
+            <p className="lead">
               Built to make programmers a little more productive.
+            </p>
+            <p className="lead pb-5 pt-3" style={{ color: 'red' }}>
+              Please do not post to HackerNews yet.
             </p>
           </center>
         </Col>
