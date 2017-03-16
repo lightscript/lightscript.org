@@ -27,7 +27,8 @@ you can use the same syntax in LightScript.
 
 Integration with the Flow typechecker has **not been built yet**,
 so while you can annotate your types, they will not yet be statically checked.
-As a stopgap, the `babel-preset-lightscript` includes
+This is blocking on [Flow accepting an AST as input](https://github.com/facebook/flow/issues/1515).
+As a stopgap, the `babel-preset-lightscript` may include
 [tcomb](https://github.com/gcanti/babel-plugin-tcomb), which provides runtime typechecks.
 
 Note that, unlike in JavaScript, the `:` cannot be followed by a newline.
