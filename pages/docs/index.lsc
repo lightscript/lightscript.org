@@ -9,14 +9,17 @@ import {
 import remark from 'remark'
 import toc from 'remark-toc'
 import slug from 'remark-slug'
-import { highlight } from 'highlight.js'
+import hljs from 'highlight.js'
 
+import highlightLsc from 'util/highlightLsc'
 import markdownToReact from 'util/markdownToReact'
 import mainDocsTraverser from 'util/mainDocsTraverser'
 import tocTraverser from 'util/tocTraverser'
 import compileLscToJs from 'util/compileLscToJs'
 import rawDocs from '!raw!./docs.md'
 
+hljs.registerLanguage('lsc', highlightLsc)
+{ highlight } = hljs
 { TableOfContents, DocsContents } = convertDocsMarkdownToReact()
 
 class PureDocsContents extends React.PureComponent:
@@ -104,14 +107,7 @@ ScrollTargetSection.contextTypes = {
 }
 
 CodeCol({ code, syntax }) ->
-  html =
-    if syntax == 'js':
-      highlight('js', code, true).value
-    elif syntax == 'lsc':
-      // TODO: use lsc syntax
-      highlight('js', code, true).value
-    else:
-      code
+  html = highlight(syntax, code, true).value
 
   <Col sm="6" className={syntax}>
     <pre className="h-100 pt-2">

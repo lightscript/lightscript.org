@@ -961,7 +961,7 @@ This is because it tries to parse the `/` at the start of the second line as div
 As you can see, LightScript does not share this problem.
 
 LightScript makes a slightly crude generalization that draws from the same strategy
-as `+` and `-` (above): Regular Expressions can't start with a ` ` (space) character:
+as `+` and `-` (above): Regular Expressions can't start with a space character (` `):
 
     / \w/.test(' broken')
 
@@ -1067,7 +1067,7 @@ is broken, but this works:
 Instead, there are a few restrictions around edge cases:
 
 1. For positive and negative numbers, use `+1` and `-1` instead of `+ 1` and `- 1`.
-1. Regular expressions that begin with a space must use `\ ` or `\s`, not ` `.
+1. Regular expressions that begin with a space must use `/\ /` or `/\s/`, not `/ /`.
 1. When starting a line with binary `+`, `-`, `\`, or `<`, the symbol must be followed by a space:
 
 ```
