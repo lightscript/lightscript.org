@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, NavBar, NavLink } from 'components/bootstrap'
+import { Container, Row, Col } from 'components/bootstrap'
 import cx from 'classnames'
 import compileLscToJs from 'util/compileLscToJs'
 
@@ -85,14 +85,27 @@ CodeCol({ code, syntax, onChange }) =>
       name={`code-${hashStr(code)}`}
     />
   </Col>
+CodeCol.propTypes = {
+  code: React.PropTypes.string.isRequired
+  syntax: React.PropTypes.oneOf(['lsc', 'js']).isRequired
+  onChange: React.PropTypes.func
+}
 
 class CompiledCode extends React.Component:
+  constructor(props) ->
+    { lsc } = props
+    this.state = { lsc }
+
+  static propTypes = {
+    lsc: React.PropTypes.string.isRequired
+  }
+
   // TODO: use =>
   updateLsc(lsc): void ->
     this.setState({ lsc })
 
   render() ->
-    lsc = this.state?.lsc or this.props.lsc
+    lsc = this.state.lsc
     js = compileLscToJs(lsc)
 
     <Row className="mb-3 compiled-code-group compiled-code-group-ace">

@@ -1,0 +1,51 @@
+import React from 'react'
+import DocumentTitle from 'react-document-title'
+import { Link } from 'react-router'
+import { Col, NavBar, NavLink } from 'components/bootstrap'
+import { prefixLink } from 'gatsby-helpers'
+import includes from 'underscore.string/include'
+
+import { config } from 'config'
+
+import 'css/github.css'
+import 'css/app.scss'
+
+styles = {
+  navBar: {
+    backgroundColor: '#DAF3FF'
+    borderBottom: '1px solid #CBE2EC'
+  }
+}
+
+
+TopNavBar({ location }) ->
+  docsActive = location.pathname~includes('/docs')
+
+  <NavBar className="justify-content-md-center row navbar-light mb-1" style={styles.navBar}>
+    <Col xs={6}>
+      <Link to={prefixLink('/')} className='navbar-brand'>
+        {config.siteTitle}
+      </Link>
+    </Col>
+
+    <Col xs={'auto'} className="navbar-nav float-right">
+      <NavLink to={prefixLink('/docs/')} isActive={docsActive}>
+        Documentation
+      </NavLink>
+      <NavLink href="https://github.com/lightscript/lightscript">
+        Github
+      </NavLink>
+    </Col>
+  </NavBar>
+
+export default ({ children, location }) ->
+  title =
+    if location.pathname~includes('/docs'): 'LightScript Language Reference'
+    else: 'LightScript: JavaScript, with cleaned-up syntax and a few conveniences'
+
+  <DocumentTitle title={title}>
+    <div>
+      <TopNavBar location={location} />
+      {children}
+    </div>
+  </DocumentTitle>

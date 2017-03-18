@@ -1,0 +1,13 @@
+import React from 'react'
+import DocumentTitle from 'react-document-title'
+import { config } from 'config'
+
+export default ({ route }) ->
+  { title = '', body = '' } = route?.page?.data
+
+  <DocumentTitle title={`${title} | ${config.siteTitle}`}>
+    <div className="markdown">
+      <h1>{title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: body }} />
+    </div>
+  </DocumentTitle>

@@ -1,14 +1,11 @@
 
 export default tocTraverser(node) ->
-  switch node.tagName {
-    case 'li':
-      firstChild = node.children.1
-      if firstChild and firstChild.tagName == 'p':
-        href = node.children.1.children.0.properties.href
-        node.properties.section = href.replace('#', '')
-        node.tagName = 'TocSection'
-        break
-  }
+  if node.tagName == 'li':
+    firstChild = node.children.1
+    if firstChild and firstChild.tagName == 'p':
+      href = node.children.1.children.0.properties.href
+      node.properties.section = href.replace('#', '')
+      node.tagName = 'TocSection'
 
   if node.children:
     node.children = node.children.map(tocTraverser)

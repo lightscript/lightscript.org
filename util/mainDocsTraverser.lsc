@@ -1,5 +1,4 @@
 import last from 'lodash/last'
-import includes from 'lodash/includes'
 
 export default mainDocsTraverser(node) ->
   switch node.tagName {
@@ -83,24 +82,4 @@ makeCodeRow(textNodes) ->
     tagName: 'CompiledCode'
     properties: { class: 'row mb-3', lsc }
     children: []
-  }
-
-makeCodeCol(code) ->
-  {
-    type: 'element'
-    tagName: 'div'
-    properties: { class: 'col-sm-6' }
-    children: [{
-      type: 'element'
-      tagName: 'pre'
-      properties: { class: 'h-100' }
-      children: [{
-        type: 'element'
-        tagName: 'code'
-        children: [{
-          type: 'text'
-          value: code
-        }]
-      }]
-    }]
   }

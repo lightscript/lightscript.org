@@ -5,10 +5,6 @@ import Waypoint from 'react-waypoint'
 import {
   Container, Row, Col, NavLink, Nav, Table, Blockquote
 } from 'components/bootstrap'
-import find from 'lodash/find'
-import last from 'lodash/last'
-import { prefixLink } from 'gatsby-helpers'
-import { config } from 'config'
 
 import remark from 'remark'
 import toc from 'remark-toc'
