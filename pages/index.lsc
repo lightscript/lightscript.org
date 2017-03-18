@@ -145,17 +145,18 @@ Installation() =>
 
     <p>
       The LightScript plugin currently only processes files
-      with `.lsc` or `.lsx` in the filename.
-      You can use `.lsc.js` and similar if you like.
+      with <code>.lsc</code> or <code>.lsx</code> in the filename.
+      You can use <code>.lsc.js</code> and similar if you like.
     </p>
     <p>
       Example usage:
     </p>
-    <code>babel --presets lightscript --extensions=".lsc",".js"</code>
+    <p>
+      <code>babel --presets lightscript --extensions=".lsc",".js"</code>
+    </p>
     <p>
       This isn't too ergonomic as it stands, unfortunately.
-      A unified <code>lightscript</code> cli would help (as would
-      <a href="https://github.com/babel/babel/issues/3741">this babel issue</a>).
+      A unified <code>lightscript</code> CLI would help.
     </p>
   </HomepageSection>
 
