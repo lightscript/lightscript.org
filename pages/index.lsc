@@ -11,6 +11,7 @@ if typeof window != 'undefined' and window:
   now AceEditor = require('react-ace').default
   require('brace')
   require('brace/mode/jsx')
+  require('util/braceLscMode')
   require('brace/theme/chrome')
 
 styles = {
@@ -66,10 +67,13 @@ hashStr(str) =>
 CodeCol({ code, syntax, onChange }) =>
   if not AceEditor:
     return <Col sm="6" className={cx("p-3", syntax)}><pre>{code}</pre></Col>
+  mode =
+    if syntax == "js": "jsx"
+    else: syntax
 
   <Col sm="6" className={cx("p-3", syntax)}>
     <AceEditor
-      mode="jsx"
+      mode={mode}
       theme="chrome"
       value={code}
       height='100%'
