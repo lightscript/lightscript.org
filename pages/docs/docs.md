@@ -885,9 +885,9 @@ But there are [a handful](http://inimino.org/~inimino/blog/javascript_semicolons
 of cases where a semicolon needs to be inserted, as encoded in
 [the eslint `semi: "never"` rule](http://eslint.org/docs/rules/semi#options):
 
-> statements beginning with `[`, `(`, `/`, `+`, or `-`"
+> statements beginning with `[`, `(`, `/`, `+`, or `-`
 
-JSX introduces an additional ambiguity: `<`, which is handled as well.
+ES6 and JSX each introduce an additional ambiguity: ``` ` ``` and `<`, which are handled as well.
 
 LightScript solves each issue in a slightly different way,
 though each fix is essentially an encoding of stylistic best-practice into the syntax itself.
@@ -1059,6 +1059,16 @@ is broken, but this works:
 
     isMyNumberBig = bigNumber
       < myNumber
+
+### ``` ` ```: tagged vs. untagged templates
+
+In JavaScript, the following would be parsed as ```hello`world` ```:
+
+    hello
+    `world`
+
+As with function calls, a tagged template expression in LightScript must have
+the opening ``` ` ``` on the same line as the tag.
 
 ### ASI tl;dr
 
