@@ -1,8 +1,8 @@
 {
-  "name": "docs-site",
-  "description": "Gatsby example site",
+  "name": "lightscript.org-website",
+  "description": "LightScript documentation website",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Alex Rattray <rattray.alex@gmail.com>",
   "dependencies": {
     "babel-plugin-lightscript": "latest",
     "babel-preset-env": "^1.1.8",

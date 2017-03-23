@@ -7,13 +7,21 @@ Item({ item, isActive, onClick }) =>
   </li>
 
 
+
+
+
 class List extends React.Component:
+
+
+
+
 
   activateItem(itemId): void =>
     if this.state.activeItem == itemId:
       this.setState({ activeItem: null })
     else:
       this.setState({ activeItem: itemId })
+
 
   render() ->
     { items, activeItem } = this.state

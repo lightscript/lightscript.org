@@ -166,7 +166,11 @@ var LscHighlightRules = function() {
                 token : "keyword.operator",
                 regex : "!|%|&|\\*|\\-\\-|\\-|\\+\\+|\\+|~|==|=|!=|<=|>=|<<=|>>=|>>>=|<>|<|>|!|&&|\\|\\||\\?\\:|\\*=|%=|\\+=|\\-=|&=|\\^=|\\b(?:in|instanceof|new|delete|typeof|void)" +
                         // lightscript
-                        "|<-|<!-|" + lscArrowRe
+                        "|<-|<!-"
+            }, {
+            }, {
+                token : "keyword.operator",
+                regex : lscArrowRe
             }, {
                 token : "punctuation.operator",
                 regex : "\\?|\\:|\\,|\\;|\\."

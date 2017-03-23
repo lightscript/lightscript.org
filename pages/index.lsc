@@ -28,7 +28,7 @@ Hero() ->
     <center className="pt-7 pb-3">
       <h1 style={styles.heroTitle}>LightScript</h1>
       <h3 className="pt-2" style={styles.heroSubtitle}>
-        JavaScript, with cleaned-up syntax and a few conveniences.
+        JavaScript, Uncluttered.
       </h3>
     </center>
 
@@ -37,15 +37,10 @@ Hero() ->
         <Col sm={8}>
           <center>
             <p className="lead pt-4">
-              A superset of ES7 with JSX and Flow,
-              <br />
-              implemented as a fork of Babel’s parser wrapped in a Babel plugin.
+              A close superset of ES7 with JSX and Flow, built with Babel.
             </p>
-            <p className="lead">
-              Built to make programmers a little more productive.
-            </p>
-            <p className="lead pb-5 pt-3" style={{ color: 'red' }}>
-              Please do not post to HackerNews yet.
+            <p className="lead pb-6">
+              Designed to make programmers a little more productive.
             </p>
           </center>
         </Col>
@@ -53,44 +48,47 @@ Hero() ->
     </Container>
   </div>
 
-// http://stackoverflow.com/a/7616484
-hashStr(str) =>
-  let hash = 0
-  if str.length == 0: return hash
+CodeColTitle({ children }) =>
+  <div className="code-group-title w-100 px-3 py-1 text-center">
+    {children}
+  </div>
 
-  for i from str:
-    chr = str.charCodeAt(i)
-    now hash = ((hash << 5) - hash) + chr
-    now hash |= 0
-  hash
-
-CodeCol({ code, syntax, onChange }) =>
+CodeCol({ code, syntax, title, onChange }) =>
   if not AceEditor:
     return <Col sm="6" className={cx("p-3", syntax)}><pre>{code}</pre></Col>
   mode =
     if syntax == "js": "jsx"
     else: syntax
+  numLines = code.split('\n').length
 
-  <Col sm="6" className={cx("p-3", syntax)}>
-    <AceEditor
-      mode={mode}
-      theme="chrome"
-      value={code}
-      height='100%'
-      width='100%'
-      style={{
-        backgroundColor: 'transparent'
-        minHeight: `${code.split('\n').length}rem`
-      }}
-      showGutter={false}
-      tabSize={2}
-      onChange={onChange}
-      readOnly={syntax == 'js'}
-      name={`code-${hashStr(code)}`}
-    />
+  <Col sm="6" className={cx('p-0', syntax)}>
+    <CodeColTitle>
+      {title}
+    </CodeColTitle>
+    <div className="p-3">
+      <AceEditor
+        mode={mode}
+        theme="chrome"
+        value={code}
+        height='100%'
+        width='100%'
+        style={{
+          backgroundColor: 'transparent'
+        }}
+        minLines={numLines}
+        maxLines={numLines}
+        showGutter={false}
+        tabSize={2}
+        onChange={onChange}
+        readOnly={syntax == 'js'}
+        name={`ace-${syntax}`}
+        highlightActiveLine={syntax != 'js'}
+      />
+    </div>
   </Col>
 CodeCol.propTypes = {
   code: React.PropTypes.string.isRequired
+  title: React.PropTypes.string.isRequired
   syntax: React.PropTypes.oneOf(['lsc', 'js']).isRequired
   onChange: React.PropTypes.func
 }
@@ -112,9 +110,12 @@ class CompiledCode extends React.Component:
     lsc = this.state.lsc
     js = compileLscToJs(lsc)
 
+    lscTitle = '(editable) LightScript in...'
+    jsTitle = '...JavaScript out.'
+
     <Row className="mb-3 compiled-code-group compiled-code-group-ace">
-      <CodeCol code={lsc} syntax="lsc" onChange={(lsc) => this.updateLsc(lsc)} />
-      <CodeCol code={js} syntax="js" />
+      <CodeCol code={lsc} syntax="lsc" title={lscTitle} onChange={(lsc) => this.updateLsc(lsc)} />
+      <CodeCol code={js} syntax="js" title={jsTitle} />
     </Row>
 
 ReactExample() =>
@@ -131,6 +132,35 @@ HomepageSection({ children }) ->
     </Col>
   </Row>
 
+
+WhyLightScript() =>
+  <HomepageSection>
+    <h3>Why LightScript?</h3>
+
+    <p>
+      Developers care about syntax for a reason.
+      Not only is concise syntax faster to read and faster to write,
+      all syntax guides how you write code – for better and for worse.
+      If "the right way" is verbose or awkward,
+      developers too often choose the wrong way.
+    </p>
+    <p>
+      Writing maintainable, correct, performant code should be the default.
+    </p>
+    <p>
+      LightScript aims to align "the easy way" and "the right way"
+      by giving best practices and functional idioms
+      the approachability of Ruby and Python.
+    </p>
+    <p>
+      Interoperability with JavaScript is at the core of the language;
+      it is implemented as a fork of Babel's parser, and functions as a
+      superset of ES7 with minimal backwards-incompatibilities.
+      Every LightScript language feature strives for a clear 1:1 mapping
+      to JavaScript code you might have written yourself.
+    </p>
+  </HomepageSection>
+
 Installation() =>
   <HomepageSection>
     <h3>Installation & Usage</h3>
@@ -139,28 +169,49 @@ Installation() =>
       For all ES7 features (including <code>import</code>) and runtime typechecks, use the preset:
     </p>
     <h4>
-      <code>npm install --save babel-preset-lightscript</code>
+      <code>$ npm install babel-preset-lightscript</code>
     </h4>
 
     <p>
       If you just want the core language, use the plugin:
     </p>
-    <code>npm install --save babel-plugin-lightscript</code>
+    <p>
+      <code>$ npm install babel-plugin-lightscript</code>
+    </p>
+    <p>
+      ...and add to your <code>.babelrc</code>.
+    </p>
 
     <p>
       The LightScript plugin currently only processes files
       with <code>.lsc</code> or <code>.lsx</code> in the filename.
       You can use <code>.lsc.js</code> and similar if you like.
     </p>
-    <p>
+
+    <h4>
       Example usage:
+    </h4>
+    <p>
+      <code>$ babel --presets lightscript -x .lsc</code>
     </p>
     <p>
-      <code>babel --presets lightscript --extensions=".lsc",".js"</code>
+      Or, if you have added <code>{'{'}"presets": ["lightscript"]}</code> to
+      your <code>.babelrc</code>:
     </p>
     <p>
-      This isn't too ergonomic as it stands, unfortunately.
-      A unified <code>lightscript</code> CLI would help.
+      <code>$ babel -x .lsc</code>
+    </p>
+    <p>
+      If you're using webpack, loaders work as expected:
+    </p>
+    <p>
+      <code>{`
+        test: /\.(lsc|jsx?)/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['lightscript']
+        }
+      `}</code>
     </p>
   </HomepageSection>
 
@@ -256,6 +307,8 @@ export default () =>
 
     <Container>
       <ReactExample />
+
+      <WhyLightScript />
 
       <Installation />
 

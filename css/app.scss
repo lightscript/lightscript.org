@@ -2,9 +2,15 @@
 
 // see also css/bootstrap/_custom.scss
 
+$title_color: #28799f;
+
 pre {
   font-size: .875em;
   white-space: pre-wrap;
+}
+
+code {
+  color: $title_color;
 }
 
 body {
@@ -29,7 +35,7 @@ h1, h2 {
   }
 
   h1 {
-    color: #28799f;
+    color: $title_color;
     font-size: 3.5rem;
   }
 }
@@ -115,6 +121,10 @@ h1, h2 {
 
 .compiled-code-group {
   border: 1px solid hsla(199, 8%, 77%, 1);
+
+  .code-group-title {
+    border-bottom: 1px solid hsla(200, 8%, 77%, 0.5);
+  }
 
   &.compiled-code-group-ace {
     box-shadow: 0 0 6px 3px hsla(199, 8%, 77%, 0.3);

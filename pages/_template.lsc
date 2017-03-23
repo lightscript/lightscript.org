@@ -1,7 +1,7 @@
 import React from 'react'
 import DocumentTitle from 'react-document-title'
 import { Link } from 'react-router'
-import { Col, NavBar, NavLink } from 'components/bootstrap'
+import { Row, Col, NavBar, NavLink } from 'components/bootstrap'
 import { prefixLink } from 'gatsby-helpers'
 import includes from 'underscore.string/include'
 
@@ -21,21 +21,23 @@ styles = {
 TopNavBar({ location }) ->
   docsActive = location.pathname~includes('/docs')
 
-  <NavBar className="justify-content-md-center row navbar-light mb-1" style={styles.navBar}>
-    <Col xs={6}>
-      <Link to={prefixLink('/')} className='navbar-brand'>
-        {config.siteTitle}
-      </Link>
-    </Col>
+  <NavBar className="navbar-light mb-1" style={styles.navBar}>
+    <Row className="justify-content-md-center w-100">
+      <Col xs={6}>
+        <Link to={prefixLink('/')} className='navbar-brand'>
+          {config.siteTitle}
+        </Link>
+      </Col>
 
-    <Col xs={'auto'} className="navbar-nav float-right">
-      <NavLink to={prefixLink('/docs/')} isActive={docsActive}>
-        Documentation
-      </NavLink>
-      <NavLink href="https://github.com/lightscript/lightscript">
-        Github
-      </NavLink>
-    </Col>
+      <Col xs={'auto'} className="navbar-nav float-right">
+        <NavLink to={prefixLink('/docs/')} isActive={docsActive}>
+          Documentation
+        </NavLink>
+        <NavLink href="https://github.com/lightscript/lightscript">
+          Github
+        </NavLink>
+      </Col>
+    </Row>
   </NavBar>
 
 export default ({ children, location }) ->
