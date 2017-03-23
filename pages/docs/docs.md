@@ -874,6 +874,94 @@ As in ES7:
       talk() -> 'grrr'
 
 
+## Standard Library
+
+By default, LightScript includes all of Lodash, and a few other functions,
+to be imported as needed:
+
+    [0.1, 0.3, 0.5, 0.7]~map(round)~uniq()
+    // [0, 1]
+
+    looseEq(3, '3')
+    // true
+
+    2~looseNotEq('3')
+    // true
+
+    bitwiseNot(1)
+    // -2
+
+
+### Contents
+
+- Every method in [Lodash v4](https://lodash.com/docs/4.17.4)
+  - Note that LightScript **does not** install lodash for you;
+    you must run `npm install --save lodash` if you wish to use these features.
+- `looseEq(a, b)`, which uses the JavaScript loose-equality `==` to compare two variables
+  (available because in LightScript, `==` compiles to `===`).
+- `looseNotEq(a, b)`, which uses the JavaScript loose-inequality `!=` to compare two variables.
+- `bitwiseNot(x)`, which returns `~x`, since `~` has been repurposed in LightScript for [Tilde Calls](#tilde-calls).
+
+### Overriding
+
+User-defined identifiers will override a stdlib identifier:
+
+    round(x) -> 100
+    [0.1, 0.3, 0.5, 0.7]~map(round)~uniq()
+    // [100]
+
+In the future, this will be discouraged with an ESLint rule.
+
+### Disabling
+
+To disable this feature, pass `stdlib: false` to `babel-plugin-lightscript`, eg;
+
+```
+// .babelrc
+{
+  "plugins": [
+    ["lightscript", { "stdlib": false }]
+  ]
+}
+```
+
+You may also similarly disable inclusion of lodash:
+
+```
+// .babelrc
+{
+  "plugins": [
+    ["lightscript", {
+      "stdlib": {
+        "lodash": false,
+      }
+    }]
+  ]
+}
+```
+
+Note that this is unlikely to be necessary;
+projects that simply don't call lodash methods won't have any lodash imports,
+and if you do the import yourself LightScript won't add an import.
+
+### Using require instead of import
+
+If you are not transpiling `import` to `require()` calls with another plugin
+(or with `babel-preset-lightscript`), you may need the `require: true` setting:
+
+```
+// .babelrc
+{
+  "plugins": [
+    ["lightscript", {
+      "stdlib": {
+        "require": true,
+      }
+    }]
+  ]
+}
+```
+
 ## Automatic Semicolon Insertion
 
 *See the [tl;dr](#asi-tldr) for a quick overview*
