@@ -106,7 +106,7 @@ you can write loops and conditionals as you always would, complete with parens a
 
 You can write `if`, `for`, etc without parens, but with curly braces:
 
-    for x of arr {
+    for const x of arr {
       if x > 10 {
         print('wow, so big!')
       } else {
@@ -116,7 +116,7 @@ You can write `if`, `for`, etc without parens, but with curly braces:
 
 Or, if you prefer, use significant indentation:
 
-    for x of arr:
+    for const x of arr:
       if x > 10:
         print('wow, so big!')
       else:
@@ -131,13 +131,13 @@ but when blocks get very long or deeply nested, curly braces offer better visibi
 
 Blocks that contain only a single statement can be written on the same line:
 
-    for thing of list: print(thing)
+    for elem thing in list: print(thing)
 
     if x < 10: print('x is small')
 
 One-line blocks can be combined:
 
-    for x of arr: if x < 10: print(x)
+    for elem x in arr: if x < 10: print(x)
 
 You cannot, however, mix one-line and multiline syntax:
 
@@ -215,16 +215,16 @@ If you don't include an `else`, it will be `null`:
 
 Both `==` and `===` compile to `===`, which is almost always what you want.
 
-When you actually want to use a coercing-equals, call the [`coercingEq()`]() function
-from the standard library (eg; `1~coercingEq('1')`). (TODO)
+When you actually want to use a loose-equals (`==`), call the `looseEq()` function
+from the [standard library](#standard-library) (eg; `1~looseEq('1')`).
 
 ### `!=`
     1 != 0
 
 Similarly, both `!=` and `!==` compile to `!==`.
 
-When you actually want to use a coercing-not-equals,
-call the [`coercingNotEq()`]() function from the standard library.
+When you actually want to use a loose-not-equals (`!=`),
+call the `looseNotEq()` function from the [standard library](#standard-library).
 
 ### `or`
     a or b
@@ -454,7 +454,7 @@ awaitAll(promises) -/>
 This can alo be combined with Array Comprehensions:
 ```
 fetchAll(urls) -/>
-  <- [for url of urls: fetch(url)]
+  <- [for elem url in urls: fetch(url)]
 ```
 
 ### Safe Await
@@ -625,129 +625,171 @@ Again, commas are optional; newlines are preferred.
 ### Array Comprehensions
 
     doubledItems =
-      [for item of array: item * 2]
+      [ for elem item in array: item * 2 ]
 <!-- -->
 
     filteredItems =
-      [for item of array: if item > 3: item]
+      [ for elem item in array: if item > 3: item ]
 
 Note that you can nest for-loops within an array, and they can take up multiple lines:
 
     listOfPoints = [
-      for x of xs:
-        for y of ys:
-          { x, y }
+      for elem x in xs:
+        for elem y in ys:
+          if x and y:
+            { x, y }
     ]
 
 You can also nest comprehensions within comprehensions for constructing multidimensional arrays:
 
-    matrix = [for row from 0 til n:
-      [for col from 0 til n: { row, col }]
+    matrix = [ for idx row in Array(n):
+      [ for idx col in Array(n): { row, col } ]
     ]
 
 Note that if `else` is not provided, items that do not match an `if` are filtered out; that is,
 
-    [for i from 1 thru 4: if i > 2: i]
+    [ for idx i in Array(5): if i > 2: i ]
 
-will result in `[3, 4]`, not `[null, null, 3, 4]`
+will result in `[3, 4]`, not `[null, null, null, 3, 4]`
 
 ### Object Comprehensions
 
-Coming soon.
+As with Array Comprehensions, but wrapped in `{}` and with comma-separated `key, value`.
+
+    { for elem item in array: (item, f(item)) }
+
+The parens are optional:
+
+    flipped =
+      { for key k, val v in obj: v, k }
 
 
 ## Loops
 
-Iteration in JavaScript is a bit of a mess.
+In JavaScript, there's really only one fast option for iteration: `for-;;`.
+It's so ugly, though, that most developers avoid it in favor of more ergonomic
+(but less performant and powerful) alternatives, like `.forEach()` and `for-of`.
 
-There are three kinds of `for` loops: `for-in`, `for-of`, and `for-;;`.
+With LightScript, you don't have to compromise.
 
-LightScript [adds a fourth](#https://xkcd.com/927/), `for-from`,
-for convenient iteration over arrays and ranges.
+### Iterating over Arrays
 
-### Which `for` art thou, Romeo?
+Iterate over indices and elements of an array:
 
-Target | Need Index/Key | Need Value | Need Both
--- | -- | -- | --
-Objects | `for key in obj` | `for val of obj` | coming soon
-Arrays | `for i from arr` | `for elem of arr` | `for i, elem from arr`
-Collections | `for i from list` | `for elem of list` | `for i, elem from list`
-Iterators | *N/A* | `for val of gen` | *N/A*
-Simple Range | `for i from x til y` | *N/A* | *N/A*
-Complex Range | `for let i; i < n; i++` | *N/A* | *N/A*
+    for idx i, elem x in arr:
+      print(i, x)
 
-The fact that this table is necessary is a real bummer and I'm all ears
-for suggestions that make it more straightforward without sacrificing performance.
+Only indices:
 
-### `for-of` and `for-in`
-
-As in JavaScript, with `const` as default:
-
-    for elem of array:
-      print(elem)
-<!-- -->
-
-    for val of obj:
-      print(val)
-<!-- -->
-
-    for key in obj:
-      val = obj[key]
-
-PSA: using `in` with an Array is usually [not what you want](TODO); use `for-from` instead.
-
-Extensions to the `for-in` feature are planned.
-
-### `for-from` Array
-
-Iterate over the indices of an array:
-
-    for i from array:
+    for idx i in arr:
       print(i)
 
-Iterate over the indices and elements of an array:
+Only elements:
 
-    for i, thing from array:
-      print(thing)
+    for elem x in arr:
+      print(x)
 
-Note that this feature is not to be used with Objects, only Arrays;
-for Objects, use [`for-in`](#for-of-and-for-in).
+Note that if you are iterating over something more complicated than a variable
+(eg; a function call), it will be lifted into its own variable so as not to be called twice:
 
-### `for-from` Range
+    for elem x in foo():
+      print(x)
 
-Iterate from `x` to `y` exclusive (prints 0, 1, 2, 3, 4):
+### Iterating over Objects
 
-    for i from 0 til 5:
-      console.log(i)
+Iterate over keys and values of an object:
 
-Iterate from `x` to `y` inclusive (prints 0, 1, 2, 3, 4, 5):
+    for key k, val v in obj:
+      print(k, v)
 
-    for i from 0 thru 5:
-      console.log(i)
+Only keys:
 
-If you just want to perform an operation `n` times, you may omit the iterator variable:
+    for key k in obj:
+      print(k)
 
-    sayHiTenTimes() ->
-      for 0 til 10:
-        console.log("hi!")
+Only values:
 
-### `for init ; test ; update`
+    for val v in obj:
+      print(v)
 
-When the `for i from array` or `for i from 0 til n` constructs are insufficient,
-you may use a traditional `;;` for-loop:
+Note the `hasOwnProperty` check.
 
-    for let i = 10; i >= -10; i--:
-      console.log(i)
+This implementation is subject to change in the future,
+most likely by iterating over `Object.keys(obj)` with a `for-;;`
+to eliminate the `hasOwnProperty` check, which incurs a performance hit.
+
+### Iterating over Ranges
+
+There is no builtin support for ranges.
+When the object instantiation is acceptable, use of `Array()`
+or the lodash `range()` method (provided by [the stdlib](#standard-library))
+is recommended:
+
+    for idx i in Array(10):
+      print(i)
+<!-- -->
+
+    for idx i in range(20, 100, 2):
+      print(i)
+
+If you are performing a numerical iteration and the array instantiation is problematic
+for performance, `for-;;` is recommended:
+
+    for let i = 0; i < n; i++:
+      print(i)
+
+### Traditional `for-in`
+
+If you wish to iterate over all keys of an object without a `hasOwnProperty` check,
+use `for-in` with `const`, `let`, `var`, or `now`:
+
+    for const k in obj:
+      print(k)
+<!-- -->
+
+    var k;
+    for now k in {a: 1, b: 2}:
+      print()
+
+    print(k)
+    // "b"
+
+Unfortunately, the more concise `for x in arr` form would be ambiguous
+(is it keys of an object or values of an array?) and is not allowed:
+
+    for x in arr:
+      print(x)
+
+### Traditional `for-of`
+
+If you are iterating over `[Symbol.iterator]` (eg; a generator function),
+use `for-of` as in JS.
+
+A construct like `for iter x in gen` may be introduced in the future for consistency.
+
+Like `for-in`, `for-of` must include `const`, `let`, `var`, or `now`:
+
+    for const x of gen:
+      print(gen)
+
+A naked variable is not allowed:
+
+    for x of gen():
+      print(x)
+
+This is to encourage developers iterating over arrays to use the more performant
+`for elem x in arr` rather than `for x of arr`, which is [slower](https://jsperf.com/for-of-vs-for-loop/15).
+It may be relaxed in the future.
 
 ### Single-line `for`
 
-    for x of stuff: print(x)
+    for elem x in stuff: print(x)
 
 This syntax can be used with all `for` loops.
 
 Note that you can combine this with single-line `if` statements:
 
-    for x of stuff: if x > 3: print(x)
+    for elem x in stuff: if x > 3: print(x)
 
 
 ### `while` loops
@@ -779,6 +821,7 @@ parens around the discriminant are not:
     }
 
 This may change in the future. A `guard` or `match` feature may also be added.
+
 
 ## Classes
 
@@ -1256,12 +1299,11 @@ Perhaps the biggest semantic change, `==` compiles to `===` and `!=` compiles to
 The unary Bitwise NOT `~` is not included in the language, as it has been repurposed
 for [Tilde Calls](#tilde-calls).
 
+Instead, you may use the `bitwiseNot()` function provided by the [standard library](#standard-library).
+
 The other bitwise operators (namely `|`, `&`, `^`, `~`, `<<`, `>>`, `>>>`)
 and bitwise assignment operators (`|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
 may be removed as well in the future.
-
-Once the LightScript Standard Library is implemented, it will include functions
-for any removed operators (eg; `bitwiseNOT()`).
 
 ### ASI Fixes
 

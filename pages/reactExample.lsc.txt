@@ -26,6 +26,7 @@ class List extends React.Component:
   render() ->
     { items, activeItem } = this.state
 
+
     <div>
       {if activeItem:
         <p>You have selected: {activeItem}</p>
@@ -34,7 +35,7 @@ class List extends React.Component:
       }
 
       <ul>
-        {[for i, item from items:
+        {items.map((item, i) =>
           isActive = activeItem == item.id
 
           if not item.hidden:
@@ -44,6 +45,6 @@ class List extends React.Component:
               isActive={isActive}
               onClick={this.activateItem}
             />
-        ]}
+        )}
       </ul>
     </div>
