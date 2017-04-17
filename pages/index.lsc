@@ -282,9 +282,8 @@ CompletedFeatures() =>
       <li>Bound Methods</li>
       <li>Commaless Objects and Arrays</li>
       <li>Automatic Semicolon Insertion that always works</li>
-      <li>Array Comprehensions</li>
-      <li>Array-based for-loops</li>
-      <li>Range-based for-loops</li>
+      <li>Array & Object for-loops</li>
+      <li>Array & Object Comprehensions</li>
 
       <li>several others</li>
     </ul>

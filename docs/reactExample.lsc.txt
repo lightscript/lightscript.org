@@ -1,11 +1,9 @@
 Item({ item, isActive, onClick }) =>
   className = if isActive: 'active' else: 'inactive'
-  _onClick() => onClick(item.id)
 
-  <li onClick={_onClick} className={className}>
+  <li onClick={onClick} className={className}>
     {item}
   </li>
-
 
 
 
@@ -43,7 +41,7 @@ class List extends React.Component:
               key={i}
               item={item}
               isActive={isActive}
-              onClick={this.activateItem}
+              onClick={() => this.activateItem(item.id)}
             />
         )}
       </ul>
