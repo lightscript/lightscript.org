@@ -518,11 +518,11 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-lightscript@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-lightscript/-/babel-plugin-lightscript-0.4.2.tgz#9d89f80b64aa6725bd0f36bbe09abb82176d4fa9"
+babel-plugin-lightscript@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-lightscript/-/babel-plugin-lightscript-0.5.1.tgz#744110118e1056beeb165613da14a8510efdff76"
   dependencies:
-    babylon-lightscript "^0.4.1"
+    babylon-lightscript "^0.5.1"
 
 babel-plugin-react-transform@^2.0.2:
   version "2.0.2"
@@ -952,6 +952,40 @@ babel-preset-env@^1.1.8:
     electron-to-chromium "^1.2.6"
     invariant "^2.2.2"
 
+babel-preset-env@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-1.4.0.tgz#c8e02a3bcc7792f23cded68e0355b9d4c28f0f7a"
+  dependencies:
+    babel-plugin-check-es2015-constants "^6.22.0"
+    babel-plugin-syntax-trailing-function-commas "^6.22.0"
+    babel-plugin-transform-async-to-generator "^6.22.0"
+    babel-plugin-transform-es2015-arrow-functions "^6.22.0"
+    babel-plugin-transform-es2015-block-scoped-functions "^6.22.0"
+    babel-plugin-transform-es2015-block-scoping "^6.23.0"
+    babel-plugin-transform-es2015-classes "^6.23.0"
+    babel-plugin-transform-es2015-computed-properties "^6.22.0"
+    babel-plugin-transform-es2015-destructuring "^6.23.0"
+    babel-plugin-transform-es2015-duplicate-keys "^6.22.0"
+    babel-plugin-transform-es2015-for-of "^6.23.0"
+    babel-plugin-transform-es2015-function-name "^6.22.0"
+    babel-plugin-transform-es2015-literals "^6.22.0"
+    babel-plugin-transform-es2015-modules-amd "^6.22.0"
+    babel-plugin-transform-es2015-modules-commonjs "^6.23.0"
+    babel-plugin-transform-es2015-modules-systemjs "^6.23.0"
+    babel-plugin-transform-es2015-modules-umd "^6.23.0"
+    babel-plugin-transform-es2015-object-super "^6.22.0"
+    babel-plugin-transform-es2015-parameters "^6.23.0"
+    babel-plugin-transform-es2015-shorthand-properties "^6.22.0"
+    babel-plugin-transform-es2015-spread "^6.22.0"
+    babel-plugin-transform-es2015-sticky-regex "^6.22.0"
+    babel-plugin-transform-es2015-template-literals "^6.22.0"
+    babel-plugin-transform-es2015-typeof-symbol "^6.23.0"
+    babel-plugin-transform-es2015-unicode-regex "^6.22.0"
+    babel-plugin-transform-exponentiation-operator "^6.22.0"
+    babel-plugin-transform-regenerator "^6.22.0"
+    browserslist "^1.4.0"
+    invariant "^2.2.2"
+
 babel-preset-es2015@^6.13.2:
   version "6.24.0"
   resolved "https://registry.yarnpkg.com/babel-preset-es2015/-/babel-preset-es2015-6.24.0.tgz#c162d68b1932696e036cd3110dc1ccd303d2673a"
@@ -987,11 +1021,11 @@ babel-preset-flow@^6.23.0:
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
 
-babel-preset-lightscript@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/babel-preset-lightscript/-/babel-preset-lightscript-0.4.1.tgz#1f6c630f8d7fec31bdb9b3ea508212500cc537eb"
+babel-preset-lightscript@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/babel-preset-lightscript/-/babel-preset-lightscript-0.5.1.tgz#3150af0b98fc3728d8b28ee2cfd657ddd3fc3d6c"
   dependencies:
-    babel-plugin-lightscript "^0.4.2"
+    babel-plugin-lightscript "^0.5.1"
     babel-plugin-syntax-async-functions "^6.13.0"
     babel-plugin-syntax-trailing-function-commas "^6.22.0"
     babel-plugin-transform-class-properties "^6.22.0"
@@ -1001,6 +1035,7 @@ babel-preset-lightscript@^0.4.1:
     babel-plugin-transform-object-rest-spread "^6.22.0"
     babel-plugin-transform-react-display-name "^6.22.0"
     babel-plugin-transform-react-jsx "^6.22.0"
+    babel-preset-env "^1.4.0"
 
 babel-preset-react-hmre@^1.1.1:
   version "1.1.1"
@@ -1113,9 +1148,9 @@ babel-types@^6.15.0, babel-types@^6.19.0, babel-types@^6.22.0, babel-types@^6.23
     lodash "^4.2.0"
     to-fast-properties "^1.0.1"
 
-babylon-lightscript@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/babylon-lightscript/-/babylon-lightscript-0.4.1.tgz#084413b7c46dc72abf2c8f9bcaa12927cea1ffde"
+babylon-lightscript@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/babylon-lightscript/-/babylon-lightscript-0.5.1.tgz#33799e64bc9a5e8a925db302348e9d6eed53ae8a"
 
 babylon@6.15.0, babylon@^6.11.0, babylon@^6.13.0, babylon@^6.14.0, babylon@^6.14.1, babylon@^6.15.0:
   version "6.15.0"
@@ -3184,7 +3219,7 @@ function-bind@^1.0.2, function-bind@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.0.tgz#16176714c801798e4e8f2cf7f7529467bb4a5771"
 
-gatsby@lightscript/gatsby#lightscript:
+gatsby@lightscript/gatsby:
   version "0.12.28"
   resolved "https://codeload.github.com/lightscript/gatsby/tar.gz/a602f213a33df5061413a275a38b00c2aca5cb01"
   dependencies:
@@ -4668,17 +4703,17 @@ liftoff@^2.2.0:
     rechoir "^0.6.2"
     resolve "^1.1.7"
 
-lightscript-eslint@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/lightscript-eslint/-/lightscript-eslint-0.4.2.tgz#7c428689b6798e16cfa018b05f06f68ed9a3a525"
+lightscript-eslint@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/lightscript-eslint/-/lightscript-eslint-0.5.1.tgz#bc3f1d53b4a06b8044ab7d0b0f4c66a94858e959"
   dependencies:
     babel-code-frame "^6.16.0"
     babel-core "^6.24.0"
-    babel-plugin-lightscript "^0.4.2"
+    babel-plugin-lightscript "^0.5.1"
     babel-traverse "^6.15.0"
     babel-types "^6.15.0"
     babylon "^6.13.0"
-    babylon-lightscript "^0.4.1"
+    babylon-lightscript "^0.5.1"
     lodash "^4.17.4"
     lodash.pickby "^4.6.0"
 

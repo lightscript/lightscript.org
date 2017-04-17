@@ -28,7 +28,7 @@ Hero() ->
     <center className="pt-7 pb-3">
       <h1 style={styles.heroTitle}>LightScript</h1>
       <h3 className="pt-2" style={styles.heroSubtitle}>
-        JavaScript, Uncluttered.
+        A Concise Syntax for JavaScript
       </h3>
     </center>
 

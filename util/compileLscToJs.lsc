@@ -1,17 +1,29 @@
 import lightscriptPlugin from 'babel-plugin-lightscript'
-import lightscriptPreset from 'babel-preset-lightscript'
 import prettier from 'prettier'
 import { transform } from 'babel-standalone'
+
+allSyntaxes = () => ({
+  manipulateOptions(opts, parserOpts) {
+    parserOpts.plugins.push(
+      "doExpressions",
+      "objectRestSpread",
+      "decorators",
+      "classProperties",
+      "exportExtensions",
+      "asyncGenerators",
+      "functionBind",
+      "functionSent",
+      "dynamicImport",
+    )
+  },
+})
 
 export default compileLscToJs(lsc) ->
   let js
   try:
-    now js = transform(lsc, { plugins: [lightscriptPlugin] }).code
+    now js = transform(lsc, { plugins: [lightscriptPlugin, allSyntaxes] }).code
   catch (err):
-    try:
-      now js = transform(lsc, { presets: [lightscriptPreset] }).code
-    catch (err):
-      return err.message
+    return err.message
 
   prettier.format(js, {
     printWidth: 60

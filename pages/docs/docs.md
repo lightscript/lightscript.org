@@ -168,6 +168,7 @@ For example, in this code:
 `climbTree()` needs the two indents it has, because the line with the `:` has one indent.
 An `else` could have either zero or one indent.
 
+
 ## Conditionals
 
 ### `elif`
@@ -309,7 +310,6 @@ LightScript does not add implicit returns:
 - To functions with a `void` returnType annotation (eg; `fn(): void ->`).
 - To setter methods (eg; `{ prop(newValue) -set> this._prop = newValue }`).
 - To constructor methods (eg; `constructor() ->`), which generaly should not return.
-- When the function ends in a variable assignment (eg; `fn() -> x = 2`).
 
 ### Annotated
 
@@ -572,7 +572,7 @@ And makes chaining with functions much more convenient, obviating intermediate v
       ~sortBy(duck => duck.height)
       .filter(duck => duck.isGosling)
 
-LightScript will soon include a standard library, consisting primarily of lodash methods.
+Note that all lodash methods are included in the LightScript [standard library](#standard-library).
 
 
 ## Objects
@@ -619,49 +619,6 @@ Again, commas are optional; newlines are preferred.
       5 - 1
       5
     ]
-
-## Comprehensions
-
-### Array Comprehensions
-
-    doubledItems =
-      [ for elem item in array: item * 2 ]
-<!-- -->
-
-    filteredItems =
-      [ for elem item in array: if item > 3: item ]
-
-Note that you can nest for-loops within an array, and they can take up multiple lines:
-
-    listOfPoints = [
-      for elem x in xs:
-        for elem y in ys:
-          if x and y:
-            { x, y }
-    ]
-
-You can also nest comprehensions within comprehensions for constructing multidimensional arrays:
-
-    matrix = [ for idx row in Array(n):
-      [ for idx col in Array(n): { row, col } ]
-    ]
-
-Note that if `else` is not provided, items that do not match an `if` are filtered out; that is,
-
-    [ for idx i in Array(5): if i > 2: i ]
-
-will result in `[3, 4]`, not `[null, null, null, 3, 4]`
-
-### Object Comprehensions
-
-As with Array Comprehensions, but wrapped in `{}` and with comma-separated `key, value`.
-
-    { for elem item in array: (item, f(item)) }
-
-The parens are optional:
-
-    flipped =
-      { for key k, val v in obj: v, k }
 
 
 ## Loops
@@ -801,12 +758,17 @@ As in JavaScript, with the standard syntax options:
 
 ### `do-while`
 
-Curly braces for the `do` block are required; parens for the `while` clause are not.
+As in JavaScript, with the standard syntax options:
 
-    do {
+    do:
       activities()
-    } while true
+    while true
 
+A newline (or semicolon) must follow the `while` clause, so this is not legal in LightScript:
+
+    do:
+      activities()
+    while (true) foo()
 
 ### `switch`
 
@@ -821,6 +783,50 @@ parens around the discriminant are not:
     }
 
 This may change in the future. A `guard` or `match` feature may also be added.
+
+
+## Comprehensions
+
+### Array Comprehensions
+
+    doubledItems =
+      [ for elem item in array: item * 2 ]
+<!-- -->
+
+    filteredItems =
+      [ for elem item in array: if item > 3: item ]
+
+Note that you can nest for-loops within an array, and they can take up multiple lines:
+
+    listOfPoints = [
+      for elem x in xs:
+        for elem y in ys:
+          if x and y:
+            { x, y }
+    ]
+
+You can also nest comprehensions within comprehensions for constructing multidimensional arrays:
+
+    matrix = [ for idx row in Array(n):
+      [ for idx col in Array(n): { row, col } ]
+    ]
+
+Note that if `else` is not provided, items that do not match an `if` are filtered out; that is,
+
+    [ for idx i in Array(5): if i > 2: i ]
+
+will result in `[3, 4]`, not `[null, null, null, 3, 4]`
+
+### Object Comprehensions
+
+As with Array Comprehensions, but wrapped in `{}` and with comma-separated `key, value`.
+
+    { for elem item in array: (item, f(item)) }
+
+The parens are optional:
+
+    flipped =
+      { for key k, val v in obj: v, k }
 
 
 ## Classes
@@ -898,6 +904,10 @@ As in ES7:
     class Animal:
       noise = 'grrr'
 
+Note that `babel-plugin-lightscript` by itself will not process class properties;
+you must include the `babel-plugin-transform-class-properties` plugin yourself,
+or use `babel-preset-lightscript`.
+
 ### Static properties and methods ("class static fields")
 
 As in ES7:
@@ -916,6 +926,9 @@ As in ES7:
       @methodDecorator
       talk() -> 'grrr'
 
+Note that `babel-plugin-lightscript` by itself will not process decorators;
+you must include the `babel-plugin-transform-decorators-legacy` plugin yourself,
+or use `babel-preset-lightscript`.
 
 ## Standard Library
 
@@ -1238,42 +1251,6 @@ This can be corrected by wrapping the param in parens:
 
     if fn(): (x) => 4
 
-### Colons, If, and Types
-
-The following code will raise a syntax error:
-
-    if
-      someCondition: obj.prop = value
-
-because `someCondition: obj.prop = value` parses a `const someCondition` declaration
-with the type annotation of `obj.prop` and the value of `value`.
-
-This can be fixed by removing the newline between `if` and `someCondition`:
-
-    if someCondition: obj.prop = value
-
-or by moving the consequent to the next line:
-
-    if
-      someCondition:
-        obj.prop = value
-
-and of course, the dramatically more sane construct works just fine:
-
-    if someCondition:
-      obj.prop = value
-
-Note that multiline `if`s that use binary operators are not subject to this issue:
-
-    if someCondition and
-      anotherCondition: obj.prop = value
-
-parses as expected.
-
-Note also that since LightScript does not allow variable-declaring type annotations
-to contain a newline between the `:` and the type, any `if` or `for`
-that has its body on the next line (or which isn't an assignment) is safe.
-
 
 ## Deviations from JavaScript
 
@@ -1288,7 +1265,7 @@ but are grouped here for convenience.
 
 ### Added keywords
 
-`now`, `or`, `and`, `not`, `til`, and `thru` are reserved words in LightScript.
+`now`, `or`, `and`, and `not` are reserved words in LightScript.
 
 ### `==` and `!=`
 
@@ -1310,12 +1287,48 @@ may be removed as well in the future.
 See [ASI](#automatic-semicolon-insertion) for a handful of breaking syntax changes,
 mainly requiring or disallowing a space after an operator.
 
+### Do-While requires newline or semicolon
+
+While in JavaScript, the following is valid:
+
+    do {} while (x) foo()
+
+It is illegal in LightScript. A `;` or newline must follow the `while` conidition,
+regardless of whether parens are used.
+
+### No newlines after `if`, `while`, `switch`, and `with`
+
+While in JavaScript, the following are valid:
+
+    if
+      (condition) {
+        result()
+      }
+
+    while
+    (notDone())
+    doStuff()
+
+They are illegal in LightScript. Instead, put the condition on the same line as the `if`
+or use parens like so:
+
+    if (
+      condition and
+      otherCondition
+    ):
+      result()
+
+    while (
+      notDone() and
+      notBoredYet()
+    ):
+      doStuff()
+
 ### No Invisible Characters
 
 While invisible characters are legal in strings, the only ones allowed in code
 are ` ` (ascii-32), `\n` and `\r\n`. Tabs, non-breaking spaces, and exotic unicode
 such as `\u8232` raise `SyntaxError`s.
-
 
 ### Blocks vs. Objects
 
