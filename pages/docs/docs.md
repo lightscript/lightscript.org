@@ -670,7 +670,7 @@ Only values:
       print(v)
 
 Note the use of `Object.keys()` under the hood, as this will only iterate over
-_own_ keys, not _inherited_ ones. Use a [Traditional `for-in`](#traditional-for-in)
+_own_ keys, not inherited ones. Use a [traditional `for-in`](#traditional-for-in)
 if you wish to iterate over inherited properties as well.
 
 ### Iterating over Ranges
@@ -1301,7 +1301,7 @@ Perhaps the biggest semantic change, `==` compiles to `===` and `!=` compiles to
 All bitwise operators have been removed. The unary Bitwise NOT `~` has been repurposed
 for [Tilde Calls](#tilde-calls).
 
-Instead you may use the replacements provided by the [standard library](#standard-library).
+Instead you may use the replacements (like `bitwiseNot(x)`) provided by the [standard library](#standard-library).
 
 Bitwise assignment operators (`|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
 remain but may be removed as well in the future.
