@@ -1199,7 +1199,7 @@ In LightScript, accessing an index or property using `[]` requires an indent:
 
 The required indent is relative to the line that starts a subscript chain.
 
-Note that this rule also applies to the "numberical index access" feature:
+Note that this rule also applies to the "numerical index access" feature:
 
     node
       .children
