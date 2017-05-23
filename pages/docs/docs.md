@@ -693,6 +693,25 @@ for performance, `for-;;` is recommended:
     for let i = 0; i < n; i++:
       print(i)
 
+### Destructuring elements or values
+
+You can destructure the elements of an Array or the values of an Object, similar to ES2015 JavaScript:
+
+Array element destructuring:
+
+    for elem { color } in [{ color: 'blue' }]:
+      print(color)
+
+Object value destructuring:
+
+    for val [first, second] in { bases: ['who', 'what'] }:
+      print(first, second)
+
+The full power of [destructuring syntax](https://mdn.io/destructuring_assignment) is possible here:
+
+    for elem { props: { color, size: [w, h] }  } in arr:
+      print(color, w, h)
+
 ### Traditional `for-in`
 
 If you wish to iterate over all owned _and inherited_ keys of an object,
