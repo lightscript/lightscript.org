@@ -17,7 +17,7 @@ the `const` keyword is also valid:
 
     const greeting = 'Hello, World!'
 
-LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax,
+LightScript uses Facebook's [Flow](https://flow.org/) typechecker and type syntax,
 so you can optionally annotate types:
 
     greeting: string = 'Hello, World!'
@@ -313,7 +313,7 @@ LightScript does not add implicit returns:
 
 ### Annotated
 
-LightScript uses Facebook's [Flow](flowtype.org) typechecker and type syntax.
+LightScript uses Facebook's [Flow](https://flow.org/) typechecker and type syntax.
 
     foo(a: string, b: number): number ->
       a.length + b
