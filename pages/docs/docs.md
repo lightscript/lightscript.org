@@ -669,11 +669,9 @@ Only values:
     for val v in obj:
       print(v)
 
-Note the `hasOwnProperty` check.
-
-This implementation is subject to change in the future,
-most likely by iterating over `Object.keys(obj)` with a `for-;;`
-to eliminate the `hasOwnProperty` check, which incurs a performance hit.
+Note the use of `Object.keys()` under the hood, as this will only iterate over
+_own_ keys, not _inherited_ ones. Use a [Traditional `for-in`](#traditional-for-in)
+if you wish to iterate over inherited properties as well.
 
 ### Iterating over Ranges
 
@@ -697,7 +695,7 @@ for performance, `for-;;` is recommended:
 
 ### Traditional `for-in`
 
-If you wish to iterate over all keys of an object without a `hasOwnProperty` check,
+If you wish to iterate over all owned _and inherited_ keys of an object,
 use `for-in` with `const`, `let`, `var`, or `now`:
 
     for const k in obj:
