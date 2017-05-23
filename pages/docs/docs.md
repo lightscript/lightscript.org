@@ -525,12 +525,12 @@ Note that the default value is `null`, unlike CoffeeScript's `undefined`.
 This is a minor feature to make chaining more convenient, and may be removed in the future.
 
 There is not a negative index feature (eg; `chances.-1` doesn't work),
-but once the standard library is implemented, you will be able to write:
+but with the standard library you can write:
 
     lastChance = chances~last()
 
-using the [Tilde Call](#tilde-calls) feature. For now, you can do the above
-with `import { last } from 'lodash'`.
+This uses the [Tilde Call](#tilde-calls) feature and the `lodash.last()` function,
+which LightScript makes available as its [standard library](#standard-library).
 
 ### Property function definition
 
@@ -932,11 +932,12 @@ or use `babel-preset-lightscript`.
 
 ## Standard Library
 
-By default, LightScript includes all of Lodash, and a few other functions,
-to be imported as needed:
+By default, LightScript makes all of Lodash available to be imported as needed:
 
     [0.1, 0.3, 0.5, 0.7]~map(round)~uniq()
     // [0, 1]
+
+There are also several non-Lodash functions available which will be inlined:
 
     looseEq(3, '3')
     // true
