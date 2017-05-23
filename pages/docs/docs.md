@@ -1348,6 +1348,21 @@ or use parens like so:
     ):
       doStuff()
 
+### Decimals
+
+Numbers in LightScript must begin and end with a number character. That means they
+can't begin or end with a `.`:
+
+    .5
+<!-- -->
+
+    5.
+
+Instead use the explicit decimal forms:
+
+    0.5
+    5.0
+
 ### No Invisible Characters
 
 While invisible characters are legal in strings, the only ones allowed in code
