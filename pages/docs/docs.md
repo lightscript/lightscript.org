@@ -525,12 +525,12 @@ Note that the default value is `null`, unlike CoffeeScript's `undefined`.
 This is a minor feature to make chaining more convenient, and may be removed in the future.
 
 There is not a negative index feature (eg; `chances.-1` doesn't work),
-but once the standard library is implemented, you will be able to write:
+but with the standard library you can write:
 
     lastChance = chances~last()
 
-using the [Tilde Call](#tilde-calls) feature. For now, you can do the above
-with `import { last } from 'lodash'`.
+This uses the [Tilde Call](#tilde-calls) feature and the `lodash.last()` function,
+which LightScript makes available as its [standard library](#standard-library).
 
 ### Property function definition
 
@@ -669,11 +669,9 @@ Only values:
     for val v in obj:
       print(v)
 
-Note the `hasOwnProperty` check.
-
-This implementation is subject to change in the future,
-most likely by iterating over `Object.keys(obj)` with a `for-;;`
-to eliminate the `hasOwnProperty` check, which incurs a performance hit.
+Note the use of `Object.keys()` under the hood, as this will only iterate over
+_own_ keys, not inherited ones. Use a [traditional `for-in`](#traditional-for-in)
+if you wish to iterate over inherited properties as well.
 
 ### Iterating over Ranges
 
@@ -695,9 +693,28 @@ for performance, `for-;;` is recommended:
     for let i = 0; i < n; i++:
       print(i)
 
+### Destructuring elements or values
+
+You can destructure the elements of an Array or the values of an Object, similar to ES2015 JavaScript:
+
+Array element destructuring:
+
+    for elem { color } in [{ color: 'blue' }]:
+      print(color)
+
+Object value destructuring:
+
+    for val [first, second] in { bases: ['who', 'what'] }:
+      print(first, second)
+
+The full power of [destructuring syntax](https://mdn.io/destructuring_assignment) is possible here:
+
+    for elem { props: { color, size: [w, h] }  } in arr:
+      print(color, w, h)
+
 ### Traditional `for-in`
 
-If you wish to iterate over all keys of an object without a `hasOwnProperty` check,
+If you wish to iterate over all owned _and inherited_ keys of an object,
 use `for-in` with `const`, `let`, `var`, or `now`:
 
     for const k in obj:
@@ -932,11 +949,12 @@ or use `babel-preset-lightscript`.
 
 ## Standard Library
 
-By default, LightScript includes all of Lodash, and a few other functions,
-to be imported as needed:
+By default, LightScript makes all of Lodash available to be imported as needed:
 
     [0.1, 0.3, 0.5, 0.7]~map(round)~uniq()
     // [0, 1]
+
+There are also several non-Lodash functions available which will be inlined:
 
     looseEq(3, '3')
     // true
@@ -956,7 +974,14 @@ to be imported as needed:
 - `looseEq(a, b)`, which uses the JavaScript loose-equality `==` to compare two variables
   (available because in LightScript, `==` compiles to `===`).
 - `looseNotEq(a, b)`, which uses the JavaScript loose-inequality `!=` to compare two variables.
-- `bitwiseNot(x)`, which returns `~x`, since `~` has been repurposed in LightScript for [Tilde Calls](#tilde-calls).
+- all the JavaScript bitwise operators
+  - `bitwiseNot(x)`, returns the result of `~x` (since `~` has been repurposed in LightScript for [Tilde Calls](#tilde-calls)).
+  - `bitwiseAnd(a, b)`, returns the result of `a & b`.
+  - `bitwiseOr(a, b)`, returns the result of `a | b`.
+  - `bitwiseXor(a, b)`, returns the result of `a ^ b`.
+  - `bitwiseLeftShift(a, b)`, returns the result of `a << b`.
+  - `bitwiseRightShift(a, b)`, returns the result of `a >> b`.
+  - `bitwiseZeroFillRightShift(a, b)`, returns the result of `a >>> b`.
 
 ### Overriding
 
@@ -1174,7 +1199,7 @@ In LightScript, accessing an index or property using `[]` requires an indent:
 
 The required indent is relative to the line that starts a subscript chain.
 
-Note that this rule also applies to the "numberical index access" feature:
+Note that this rule also applies to the "numerical index access" feature:
 
     node
       .children
@@ -1271,16 +1296,15 @@ but are grouped here for convenience.
 
 Perhaps the biggest semantic change, `==` compiles to `===` and `!=` compiles to `!==`.
 
-### `~`
+### Bitwise operators
 
-The unary Bitwise NOT `~` is not included in the language, as it has been repurposed
+All bitwise operators have been removed. The unary Bitwise NOT `~` has been repurposed
 for [Tilde Calls](#tilde-calls).
 
-Instead, you may use the `bitwiseNot()` function provided by the [standard library](#standard-library).
+Instead you may use the replacements (like `bitwiseNot(x)`) provided by the [standard library](#standard-library).
 
-The other bitwise operators (namely `|`, `&`, `^`, `~`, `<<`, `>>`, `>>>`)
-and bitwise assignment operators (`|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
-may be removed as well in the future.
+Bitwise assignment operators (`|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
+remain but may be removed as well in the future.
 
 ### ASI Fixes
 
@@ -1323,6 +1347,20 @@ or use parens like so:
       notBoredYet()
     ):
       doStuff()
+
+### Numbers with decimals
+
+Numbers in LightScript cannot begin or end with a `.`:
+
+    .5
+<!-- -->
+
+    5.
+
+Instead use the explicit decimal forms:
+
+    0.5
+    5.0
 
 ### No Invisible Characters
 
