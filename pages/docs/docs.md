@@ -956,7 +956,14 @@ to be imported as needed:
 - `looseEq(a, b)`, which uses the JavaScript loose-equality `==` to compare two variables
   (available because in LightScript, `==` compiles to `===`).
 - `looseNotEq(a, b)`, which uses the JavaScript loose-inequality `!=` to compare two variables.
-- `bitwiseNot(x)`, which returns `~x`, since `~` has been repurposed in LightScript for [Tilde Calls](#tilde-calls).
+- all the JavaScript bitwise operators
+  - `bitwiseNot(x)`, returns the result of `~x` (since `~` has been repurposed in LightScript for [Tilde Calls](#tilde-calls)).
+  - `bitwiseAnd(a, b)`, returns the result of `a & b`.
+  - `bitwiseOr(a, b)`, returns the result of `a | b`.
+  - `bitwiseXor(a, b)`, returns the result of `a ^ b`.
+  - `bitwiseLeftShift(a, b)`, returns the result of `a << b`.
+  - `bitwiseRightShift(a, b)`, returns the result of `a >> b`.
+  - `bitwiseZeroFillRightShift(a, b)`, returns the result of `a >>> b`.
 
 ### Overriding
 
@@ -1271,16 +1278,15 @@ but are grouped here for convenience.
 
 Perhaps the biggest semantic change, `==` compiles to `===` and `!=` compiles to `!==`.
 
-### `~`
+### Bitwise operators
 
-The unary Bitwise NOT `~` is not included in the language, as it has been repurposed
+All bitwise operators have been removed. The unary Bitwise NOT `~` has been repurposed
 for [Tilde Calls](#tilde-calls).
 
-Instead, you may use the `bitwiseNot()` function provided by the [standard library](#standard-library).
+Instead you may use the replacements provided by the [standard library](#standard-library).
 
-The other bitwise operators (namely `|`, `&`, `^`, `~`, `<<`, `>>`, `>>>`)
-and bitwise assignment operators (`|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
-may be removed as well in the future.
+Bitwise assignment operators (`|=`, `&=`, `^=`, `<<=`, `>>=`, `>>>=`)
+remain but may be removed as well in the future.
 
 ### ASI Fixes
 
