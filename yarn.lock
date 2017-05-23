@@ -518,11 +518,11 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-lightscript@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-lightscript/-/babel-plugin-lightscript-0.5.1.tgz#744110118e1056beeb165613da14a8510efdff76"
+babel-plugin-lightscript@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-lightscript/-/babel-plugin-lightscript-0.5.2.tgz#99c3bd0fd22f39b9f517957bc01a878662d68d17"
   dependencies:
-    babylon-lightscript "^0.5.1"
+    babylon-lightscript "^0.5.2"
 
 babel-plugin-react-transform@^2.0.2:
   version "2.0.2"
@@ -1021,11 +1021,11 @@ babel-preset-flow@^6.23.0:
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
 
-babel-preset-lightscript@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/babel-preset-lightscript/-/babel-preset-lightscript-0.5.1.tgz#3150af0b98fc3728d8b28ee2cfd657ddd3fc3d6c"
+babel-preset-lightscript@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/babel-preset-lightscript/-/babel-preset-lightscript-0.5.2.tgz#86e03a3672746849eb6d7be973c013abb93495a9"
   dependencies:
-    babel-plugin-lightscript "^0.5.1"
+    babel-plugin-lightscript "^0.5.2"
     babel-plugin-syntax-async-functions "^6.13.0"
     babel-plugin-syntax-trailing-function-commas "^6.22.0"
     babel-plugin-transform-class-properties "^6.22.0"
@@ -1148,15 +1148,15 @@ babel-types@^6.15.0, babel-types@^6.19.0, babel-types@^6.22.0, babel-types@^6.23
     lodash "^4.2.0"
     to-fast-properties "^1.0.1"
 
-babylon-lightscript@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/babylon-lightscript/-/babylon-lightscript-0.5.1.tgz#33799e64bc9a5e8a925db302348e9d6eed53ae8a"
+babylon-lightscript@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/babylon-lightscript/-/babylon-lightscript-0.5.2.tgz#a70b406f39b038976905259cda5a27ef1486c3bb"
 
-babylon@6.15.0, babylon@^6.11.0, babylon@^6.13.0, babylon@^6.14.0, babylon@^6.14.1, babylon@^6.15.0:
+babylon@6.15.0, babylon@^6.11.0, babylon@^6.14.1:
   version "6.15.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.15.0.tgz#ba65cfa1a80e1759b0e89fb562e27dccae70348e"
 
-babylon@^6.16.1:
+babylon@^6.13.0, babylon@^6.14.0, babylon@^6.15.0, babylon@^6.16.1:
   version "6.16.1"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.16.1.tgz#30c5a22f481978a9e7f8cdfdf496b11d94b404d3"
 
@@ -3578,11 +3578,11 @@ got@^6.7.1:
     unzip-response "^2.0.1"
     url-parse-lax "^1.0.0"
 
-graceful-fs@4.1.10, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@4.1.10, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.10"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.10.tgz#f2d720c22092f743228775c75e3612632501f131"
 
-graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.3, graceful-fs@^4.1.9:
+graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.3:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -4703,17 +4703,17 @@ liftoff@^2.2.0:
     rechoir "^0.6.2"
     resolve "^1.1.7"
 
-lightscript-eslint@^0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/lightscript-eslint/-/lightscript-eslint-0.5.1.tgz#bc3f1d53b4a06b8044ab7d0b0f4c66a94858e959"
+lightscript-eslint@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/lightscript-eslint/-/lightscript-eslint-0.5.2.tgz#504997ed3f6c69c367e9d49d318dce2f31bf96e0"
   dependencies:
     babel-code-frame "^6.16.0"
     babel-core "^6.24.0"
-    babel-plugin-lightscript "^0.5.1"
+    babel-plugin-lightscript "^0.5.2"
     babel-traverse "^6.15.0"
     babel-types "^6.15.0"
     babylon "^6.13.0"
-    babylon-lightscript "^0.5.1"
+    babylon-lightscript "^0.5.2"
     lodash "^4.17.4"
     lodash.pickby "^4.6.0"
 
@@ -8005,16 +8005,7 @@ uc.micro@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.3.tgz#7ed50d5e0f9a9fb0a573379259f2a77458d50192"
 
-uglify-js@^2.6, uglify-js@^2.6.1:
-  version "2.8.18"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.18.tgz#925d14bae48ab62d1883b41afe6e2261662adb8e"
-  dependencies:
-    source-map "~0.5.1"
-    yargs "~3.10.0"
-  optionalDependencies:
-    uglify-to-browserify "~1.0.0"
-
-uglify-js@~2.7.3:
+uglify-js@^2.6, uglify-js@^2.6.1, uglify-js@~2.7.3:
   version "2.7.5"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.7.5.tgz#4612c0c7baaee2ba7c487de4904ae122079f2ca8"
   dependencies:
