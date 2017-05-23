@@ -1348,10 +1348,9 @@ or use parens like so:
     ):
       doStuff()
 
-### Decimals
+### Numbers with decimals
 
-Numbers in LightScript must begin and end with a number character. That means they
-can't begin or end with a `.`:
+Numbers in LightScript cannot begin or end with a `.`:
 
     .5
 <!-- -->
