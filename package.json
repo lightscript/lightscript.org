@@ -45,6 +45,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "develop": "gatsby develop",
+    "start": "gatsby develop",
     "build": "rm -rf docs && gatsby build && mv public docs && cp CNAME docs",
     "preversion": "npm run build && git add -A",
     "serve": "./node_modules/.bin/serve docs",
