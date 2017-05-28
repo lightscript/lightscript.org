@@ -362,12 +362,13 @@ LightScript compiles them to bound functions:
       yield 3
       yield 4
 
-### Note on illegal combinations
+### Async Generators
 
-You can't combine `*` and `/` into, say, `-*/>` because async functions can't
-also be generator functions.
-
-See also [`get` and `set`](#getters-and-setters), below.
+If you are using the
+[`async-generator-functions` babel transform](https://babeljs.io/docs/plugins/transform-async-generator-functions/),
+you can define async generators with `-*/>` and `=*/>`.
+Note that this is (at time of writing) a stage 3 proposal
+and thus not yet part of `babel-preset-env` or any browers.
 
 ### Basic Methods
     obj = {
@@ -397,12 +398,15 @@ as getters and setters generally do not require binding.
 
 Note also that `-get>` and `-set>` cannot be combined with `-/>` or `-*>` syntax.
 
+
 ## Await
+
 ```
 getData(url) -/>
   response <- fetch(url)
   <- response.json()
 ```
+
 ### Await and Assign
 
 To assign to a `const`, supply a variable name on the left side of the arrow:
@@ -440,6 +444,7 @@ getData(url) =/>
   response <- fetch(url)
   <- response.json()
 ```
+
 ### Await Array
 
 When an `await` is followed by a `[`, it is wrapped in `Promise.all()`:
@@ -507,6 +512,7 @@ philosophy of Rust, Haskell, and Go, which use `Result`, `Maybe`, or multiple re
 
 Because LightScript uses Flow for static type checking, any code that follows a
 `<!-` must handle the error case.
+
 
 ## Property Access
 
