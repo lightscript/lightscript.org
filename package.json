@@ -1,7 +1,7 @@
 {
   "name": "lightscript.org-website",
   "description": "LightScript documentation website",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Alex Rattray <rattray.alex@gmail.com>",
   "dependencies": {
     "babel-plugin-lightscript": "^0.5.2",
