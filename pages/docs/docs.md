@@ -157,16 +157,27 @@ Overindentation is currently allowed, but discouraged. It may be made illegal in
 ### When does an indent end?
 
 An indented block is parsed until the indent level of a line is less than or equal to
-the indent level of the line that started the block.
+the indent level of the line that started the block (the line with a `:` or `->`).
 
-For example, in this code:
+For example, this does not work:
+
+    if treeIsPretty and
+      treeIsTall:
+      climbTree()
+
+but this does (because the line with the `:` has one indent):
 
     if treeIsPretty and
       treeIsTall:
         climbTree()
 
-`climbTree()` needs the two indents it has, because the line with the `:` has one indent.
-An `else` could have either zero or one indent.
+However, that's a little ugly; the recommended style would be:
+
+    if (
+      treeIsPretty and
+      treeisTall
+    ):
+      climbTree()
 
 
 ## Conditionals
