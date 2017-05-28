@@ -220,6 +220,25 @@ If you don't include an `else`, it will be `null`:
 
     maybeDog = if canBark: 'dog'
 
+### `else` indentation
+
+When using whitespace blocks, `else` or `elif` must match the indentation of the `if`,
+so this is illegal:
+
+    if treeIsPretty and
+      treeisTall:
+        climbTree()
+      else:
+        walkAround()
+
+as is this:
+
+    f() =>
+        if treeIsPretty:
+          climbTree()
+      else:
+        walkAround()
+
 ## Logic and Equality
 
 ### `==`
