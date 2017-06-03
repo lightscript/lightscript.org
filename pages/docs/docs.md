@@ -171,13 +171,27 @@ but this does (because the line with the `:` has one indent):
       treeIsTall:
         climbTree()
 
-However, that's a little ugly; the recommended style would be:
+However, that's a little ugly; the recommended style is:
 
     if (
       treeIsPretty and
       treeisTall
     ):
       climbTree()
+
+### Mixing and matching
+
+While LightScript allows both "curly blocks" and significantly-indented blocks,
+they cannot be mixed for the same construct:
+
+    if true:
+      okay()
+    else {
+      thisIsNotAllowed()
+    }
+
+Furthermore, the indentation level must be the same across all branches of
+`if`/`else`/`elif`, `try`/`catch`/`finally` and `do`/`while`.
 
 
 ## Conditionals
@@ -220,24 +234,6 @@ If you don't include an `else`, it will be `null`:
 
     maybeDog = if canBark: 'dog'
 
-### `else` indentation
-
-When using whitespace blocks, `else` or `elif` must match the indentation of the `if`,
-so this is illegal:
-
-    if treeIsPretty and
-      treeisTall:
-        climbTree()
-      else:
-        walkAround()
-
-as is this:
-
-    f() =>
-        if treeIsPretty:
-          climbTree()
-      else:
-        walkAround()
 
 ## Logic and Equality
 
@@ -566,7 +562,7 @@ but with the standard library you can write:
     lastChance = chances~last()
 
 This uses the [Tilde Call](#tilde-calls) feature and the `lodash.last()` function,
-which LightScript makes available as its [standard library](#standard-library).
+which LightScript makes available in its [standard library](#standard-library).
 
 ### Property function definition
 

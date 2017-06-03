@@ -19,6 +19,7 @@
     "highlights": "^2.1.1",
     "lightscript-eslint": "^0.5.6",
     "lodash": "^4.17.2",
+    "node-sass": "^4.5.3",
     "prettier": "^0.20.0",
     "react-ace": "^4.1.6",
     "react-document-title": "^2.0.2",
@@ -43,7 +44,7 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint",
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "build": "rm -rf docs && gatsby build && mv public docs && cp CNAME docs",
