@@ -1222,20 +1222,12 @@ That's because you often do see code like this:
 In LightScript, accessing an index or property using `[]` requires an indent:
 
     node
-      .children
-      [0]
-
-    node
     .children
     [0] // oops!
 
 The required indent is relative to the line that starts a subscript chain.
 
 Note that this rule also applies to the "numerical index access" feature:
-
-    node
-      .children
-      .0
 
     node
     .children
