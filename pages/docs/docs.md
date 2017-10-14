@@ -1075,6 +1075,84 @@ If you are not transpiling `import` to `require()` calls with another plugin
 }
 ```
 
+## Match
+
+You can think of LightScript's `match` like a much more powerful `switch` expression.
+It is best used in scenarios where you want to do different things
+depending on the nature of a single value.
+
+It borrows from the pattern-matching/guard features from languages including
+Rust, OCaml, Haskell, Elixir, etc.
+
+You can compare on:
+
+- equality to literals
+- binary comparisons
+- matching a regex
+- being an instance of a class
+- function calls with ~
+- properties of the target
+- the shape of an object or array pattern
+
+You can also destructure or rename the value.
+
+For example, here are various ways you could write a recursive fibonacci:
+
+    fib(n) ->
+      match n:
+        | 0: 0
+        | 1: 1
+        | else: fib(n - 1) + fib(n - 2)
+
+In this example, we are providing literal values (`0` and `1`)
+which are compared against the `match`ed variable, `n`.
+
+    fib(n) ->
+      match n:
+        | 0 or 1: n
+        | else:
+          n1 = fib(n - 1)
+          n2 = fib(n - 2)
+          n1 + n2
+
+Here, we are providing a series of options.
+For illustrative purposes, we are also breaking up the body of the `else`
+into multiple lines; the value of the last line is returned.
+Any `match` case body can span multiple lines, just like an `if`-expression.
+
+    fib(n) ->
+      match n:
+        | not ~isInteger(): throw new TypeError("Must be an integer!")
+        | < 0: throw new RangeError("Can't compute negative numbers!")
+        | < 2: n
+        | else: fib(n - 1) + fib(n - 2)
+
+The last example takes advantage of the fact that the left side of
+any binary operator (`<`, `+`, `==`, etc),
+as well as subscripts like `~tildeCalls()` and `.properties`,
+can be "filled in" with the variable being `match`ed.
+
+Notice also that the first case which is truthy will be used;
+subsequent cases will not be checked.
+
+While literals (eg; `"hi"`, `42`, `true`, and even ``` `hi ${friend}` ```)
+are checked for equality with `===`, others
+
+Type | Operation | Example Input | Example Output
+-----|-----------|---------------|---------------
+Number | `===` | `| 37:` | `x === 37`
+String | `===` | `| "hey":` | `x === "hey"`
+Template | `===` | ```| `hi ${friend}` :``` | ``` x === `hi ${friend}` ```
+Boolean, Null, Undefined | `===` | `| true:` | `x === true`
+Regex | `.test()` | `| /\s+/:` | `/\s+/.test(x)`
+Binary with missing left | fill in | `| > 100:` | `x > 100`
+Object property | fill in | `| .foo:` | `x.foo`
+Tilde Call | fill in | `| ~isNumber():` | `isNumber(x)`
+Primitive Class | `typeof` | `| Number:` | `typeof x === "number"`
+Class-cased variable | `instanceof` | `| Duck:` | `x instanceof Duck`
+Variables | none | `| foo or a.b:` | `foo || a.b`
+Function Calls | none | `| foo() or foo.bar():` | `foo() || foo.bar()`
+
 ## Automatic Semicolon Insertion
 
 *See the [tl;dr](#asi-tldr) for a quick overview*
